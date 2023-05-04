@@ -1,21 +1,20 @@
 import React from "react";
 import { lazy } from "react";
-import MainContainer from "./Components/MainContainer";
 
 // Layout
 const Layout = lazy(() => import("./Components/Layout"));
-
-// const MainContainer = lazy(() => import("./Components/MainContainer"));
+const Home = lazy(() => import("./Components/Home"));
+const MainContainer = lazy(() => import("./Components/MainContainer"));
+const Login = lazy(() => import("./Components/Login"));
 
 const RouterCfg = [
+  { path: "/login", element: <Login /> },
   {
     path: "/",
     element: <Layout />,
     children: [
-      {
-        path: "",
-        element: <MainContainer />,
-      },
+      { path: "/", element: <Home /> },
+      { path: "library", element: <MainContainer /> },
     ],
   },
 ];

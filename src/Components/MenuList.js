@@ -10,25 +10,27 @@ const MenuList = [
     id: 1,
     icon: <BsFillHouseFill />,
     name: "Home",
+    path: "/"
   },
 
-  {
-    id: 2,
-    icon: <BsJournalAlbum />,
-    name: "Albums",
-  },
+  // {
+  //   id: 2,
+  //   icon: <BsJournalAlbum />,
+  //   name: "Albums",
+  // },
 
   {
     id: 3,
     icon: <BiLibrary />,
     name: "Your library",
+    path: "/library"
   },
 
-  {
-    id: 4,
-    icon: <MdOutlineFavoriteBorder />,
-    name: "Favourites",
-  }
+  // {
+  //   id: 4,
+  //   icon: <MdOutlineFavoriteBorder />,
+  //   name: "Favourites",
+  // }
 
 ];
 

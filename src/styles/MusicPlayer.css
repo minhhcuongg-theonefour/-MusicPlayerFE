@@ -1,10 +1,11 @@
 .musicPlayer {
-  position: relative;
-  right: 0;
+  position: sticky;
   bottom: 0;
   width: 100%;
   padding: 10px 10px 0 10px;
   display: flex;
+  z-index: 99;
+  background-color: #1b1b1b;
 }
 
 .musicPlayer .songImage {
@@ -54,8 +55,8 @@
 }
 
 .musicPlayer .songAttributes .top .left .loved {
-  color: #34b01f !important;
-  filter: drop-shadow(0px 0px 4px #34b01f);
+  color: #27B7B7 !important;
+  filter: drop-shadow(0px 0px 4px #27B7B7);
 }
 
 .musicPlayer .songAttributes .top .left .download {

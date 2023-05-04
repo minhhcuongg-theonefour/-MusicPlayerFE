@@ -11,11 +11,11 @@ const Songs = [
   {
     id: 2,
     favourite: false,
-    songName: "Beast",
-    artist: "Anirudh Ravichander",
-    song: "https://firebasestorage.googleapis.com/v0/b/spotify-clone-7a2ef.appspot.com/o/Ringtone%2Fbeast.mp3?alt=media&token=ebf29a01-079b-44eb-969a-57ee66a15ee8",
+    songName: "Bai nay chill phet",
+    artist: "Den Vau",
+    song: "https://drive.google.com/file/d/1tRbhss2PEO7GU36r9g2DUmtUE67WjzgW/view?usp=share_link",
     imgSrc:
-      "https://firebasestorage.googleapis.com/v0/b/spotify-clone-7a2ef.appspot.com/o/Images%2Fbeast.jpg?alt=media&token=7cc7c33e-8eac-4f7a-858d-75e75d4b609c",
+      "https://jesusful.com/wp-content/uploads/2022/07/Frozen-Let-It-Go-Mp3-Download-Lyrics.jpg",
   },
   {
     id: 3,

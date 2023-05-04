@@ -92,14 +92,14 @@ function MusicPlayer({ song, imgSrc, name, auto }) {
         <img src={imgSrc} alt="" />
       </div>
       <div className="songName">
-        <h3>{name}</h3>
+        {/* <h3>{name}</h3> */}
       </div>
       <div className="songAttributes">
         <audio src={song} preload="metadata" ref={audioPlayer} />
 
         <div className="top">
           <div className="left">
-            <div className="loved" onClick={changeSongLove}>
+            {/* <div className="loved" onClick={changeSongLove}>
               {isLove ? (
                 <i>
                   <FaRegHeart />
@@ -109,10 +109,10 @@ function MusicPlayer({ song, imgSrc, name, auto }) {
                   <FaHeart />
                 </i>
               )}
-            </div>
-            <i className="download">
+            </div> */}
+            {/* <i className="download">
               <BsDownload />
-            </i>
+            </i> */}
           </div>
 
           <div className="middle">
