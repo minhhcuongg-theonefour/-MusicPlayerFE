@@ -11,11 +11,12 @@ import {
   FaPause,
   FaShareAlt,
 } from "react-icons/fa";
-import { BsDownload } from "react-icons/bs";
+import {BsShuffle} from "react-icons/bs";
+import {ImLoop} from "react-icons/im"
 
 function MusicPlayer({ song, imgSrc, name, auto }) {
   const [isLove, setLove] = useState(false);
-  const [isPlaying, setPlay] = useState(false);
+  const [isPlaying, setPlay] = useState(true);
   //   duration state
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrenttime] = useState(0);
@@ -24,13 +25,31 @@ function MusicPlayer({ song, imgSrc, name, auto }) {
   const progressBar = useRef(); //   reference to our prgressbar
   const animationRef = useRef(); //  reference to our animation
 
-  useEffect(() => {
-    const seconds = Math.floor(audioPlayer.current.duration);
-    setDuration(seconds);
+  const whilePlaying = () => {
+    progressBar.current.value = audioPlayer.current.currentTime;
+    changeCurrentTime();
+    // need to run more than once
+    animationRef.current = requestAnimationFrame(whilePlaying);
+  };
 
-    // set max prop with out seconds in input[range]
-    progressBar.current.max = seconds;
-  }, [audioPlayer?.current?.loadedmetada, audioPlayer?.current?.readyState]);
+  useEffect(() => {
+    if (isPlaying) {
+      audioPlayer?.current?.play();
+      animationRef.current = requestAnimationFrame(whilePlaying);
+    }
+
+    let seconds;
+
+    audioPlayer.current.addEventListener("loadedmetadata", (e) => {
+      seconds = e.target.duration;
+      setDuration(seconds);
+      progressBar.current.max = seconds;
+    });
+
+    return () => {
+      audioPlayer.current.removeEventListener("loadedmetadata", () => {});
+    };
+  }, [song]);
 
   const changePlayPause = () => {
     const prevValue = isPlaying;
@@ -41,15 +60,7 @@ function MusicPlayer({ song, imgSrc, name, auto }) {
       animationRef.current = requestAnimationFrame(whilePlaying);
     } else {
       audioPlayer.current.pause();
-      cancelAnimationFrame(animationRef.current);
     }
-  };
-
-  const whilePlaying = () => {
-    progressBar.current.value = audioPlayer.current.currentTime;
-    changeCurrentTime();
-    // need to run more than once
-    animationRef.current = requestAnimationFrame(whilePlaying);
   };
 
   const calculateTime = (sec) => {
@@ -91,12 +102,9 @@ function MusicPlayer({ song, imgSrc, name, auto }) {
       <div className="songImage">
         <img src={imgSrc} alt="" />
       </div>
-      <div className="songName">
-        {/* <h3>{name}</h3> */}
-      </div>
+      <div className="songName">{/* <h3>{name}</h3> */}</div>
       <div className="songAttributes">
         <audio src={song} preload="metadata" ref={audioPlayer} />
-
         <div className="top">
           <div className="left">
             {/* <div className="loved" onClick={changeSongLove}>
@@ -118,10 +126,10 @@ function MusicPlayer({ song, imgSrc, name, auto }) {
           <div className="middle">
             <div className="back">
               <i>
-                <FaStepBackward />
+                <BsShuffle />
               </i>
               <i>
-                <FaBackward />
+                <FaStepBackward />
               </i>
             </div>
             <div className="playPause" onClick={changePlayPause}>
@@ -137,10 +145,10 @@ function MusicPlayer({ song, imgSrc, name, auto }) {
             </div>
             <div className="forward">
               <i>
-                <FaForward />
+                <FaStepForward />
               </i>
               <i>
-                <FaStepForward />
+                <ImLoop />
               </i>
             </div>
           </div>
@@ -163,9 +171,7 @@ function MusicPlayer({ song, imgSrc, name, auto }) {
             autoPlay={auto}
           />
           <div className="duration">
-            {duration && !isNaN(duration) && calculateTime(duration)
-              ? duration && !isNaN(duration) && calculateTime(duration)
-              : "00:00"}
+            {!isNaN(duration) ? calculateTime(duration) : "00:00"}
           </div>
         </div>
       </div>

@@ -1,18 +1,19 @@
 .musicPlayer {
-  position: sticky;
+  position: fixed;
   bottom: 0;
   width: 100%;
-  padding: 10px 10px 0 10px;
+  padding: 10px 200px 0 200px;
   display: flex;
   z-index: 99;
-  background-color: #1b1b1b;
+  background-color: #000;
 }
 
 .musicPlayer .songImage {
-  width: 120px;
-  min-width: 120px;
-  height: 120px;
+  width: 80px;
+  min-width: 80px;
+  height: 80px;
   border-radius: 10px;
+  align-content: center;
   overflow: hidden;
   box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.4);
 }
@@ -30,6 +31,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  margin: 16px 0;
 }
 
 .musicPlayer .songAttributes .top,
@@ -94,7 +96,7 @@
 }
 
 .musicPlayer .songAttributes .bottom {
-  margin-top: 20px;
+  margin-top: 12px;
 }
 
 .musicPlayer .songAttributes .bottom .progressBar {

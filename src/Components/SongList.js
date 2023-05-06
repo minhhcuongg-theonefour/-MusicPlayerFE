@@ -2,13 +2,17 @@ import React, { useEffect, useState } from "react";
 import { FaHeadphones, FaRegClock, FaRegHeart, FaHeart } from "react-icons/fa";
 import { Songs } from "./Songs";
 import "../styles/LeftMenu.css";
+import { setCurrentSong } from "../features/songSlice";
+import { useDispatch } from "react-redux";
 
-export default function SongList() {
-  const [songs, setSongs] = useState(Songs);
-  const [song, setSong] = useState(songs[0].song);
-  const [img, setImage] = useState(songs[0].imgSrc);
-  const [name, setName] = useState(songs[0].songName);
-  const [auto, setAuto] = useState(false);
+export default function SongList({data}) {
+  const [songs, setSongs] = useState(data);
+  const [song, setSong] = useState(data[0]?.file_url);
+  const [img, setImage] = useState(data[0]?.image);
+  const [name, setName] = useState(data[0]?.name);
+  const [auto, setAuto] = useState(true);
+
+  const dispatch = useDispatch()
 
   useEffect(() => {
     const allSongs = document.querySelectorAll(".songs");
@@ -20,32 +24,23 @@ export default function SongList() {
     allSongs.forEach((n) => n.addEventListener("click", changeActive));
   }, []);
 
-  const changeFavourite = (id) => {
-    Songs.forEach((song) => {
-      if (song.id == id) {
-        song.favourite = !song.favourite;
-      }
-    });
-
-    setSongs([...songs]);
-  };
-
-  const setMainSong = (songSrc, imgSrc, songName) => {
-    setSong(songSrc);
-    setImage(imgSrc);
-    setName(songName);
+  const setMainSong = (file_url, image, name) => {
+    setSong(file_url);
+    setImage(image);
+    setName(name);
     setAuto(true);
+    dispatch(setCurrentSong({ song: file_url, name, imgSrc: image }));
   };
 
   return (
     <div className="songsContainer">
-      {songs &&
-        songs.map((song, index) => (
+      {data &&
+        data.map((song, index) => (
           <div
             className="songs"
             key={song?.id}
             onClick={() =>
-              setMainSong(song?.song, song?.imgSrc, song?.songName)
+              setMainSong(song?.file_url, song?.image, song?.name)
             }
           >
             <div className="count">
@@ -53,12 +48,12 @@ export default function SongList() {
             </div>
             <div className="song">
               <div className="imgBox">
-                <img src={song?.imgSrc} alt="" />
+                <img src={song?.image} alt="" />
               </div>
               <div className="section">
                 <p className="songName">
-                  {song?.songName}{" "}
-                  <span className="songSpan">{song?.artist}</span>
+                  {song?.name}{" "}
+                  <span className="songSpan">{song?.singer}</span>
                 </p>
 
                 <div className="hits">
@@ -75,20 +70,6 @@ export default function SongList() {
                     </i>
                     03:04
                   </p>
-                  <div
-                    className="favourite"
-                    onClick={() => changeFavourite(song?.id)}
-                  >
-                    {song?.favourite ? (
-                      <i>
-                        <FaHeart />
-                      </i>
-                    ) : (
-                      <i>
-                        <FaRegHeart />
-                      </i>
-                    )}
-                  </div>
                 </div>
               </div>
             </div>

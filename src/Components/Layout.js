@@ -3,9 +3,11 @@ import { Outlet } from "react-router-dom";
 import LeftMenu from "./LeftMenu";
 import RightMenu from "./RightMenu";
 import MusicPlayer from "./MusicPlayer";
-import { Songs } from "./Songs";
+import { useSelector } from "react-redux";
 
 const Layout = () => {
+  const song = useSelector((state) => state.song);
+
   return (
     <>
       <LeftMenu />
@@ -13,13 +15,15 @@ const Layout = () => {
         <Suspense fallback={<div>Loading...</div>}>
           <Outlet />
         </Suspense>
-        <MusicPlayer
-          song={Songs[0].song}
-          auto={true}
-          name={Songs[0].songName}
-          imgSrc={Songs[0].imgSrc}
-        />
       </div>
+      {song.name && (
+        <MusicPlayer
+          song={song.song}
+          auto={true}
+          name={song.name}
+          imgSrc={song.imgSrc}
+        />
+      )}
       <RightMenu />
     </>
   );
