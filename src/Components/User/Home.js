@@ -1,14 +1,13 @@
 import React from "react";
-import Box from "@mui/joy/Box";
-import Typography from "@mui/joy/Typography";
 import { CardContent, CardMedia, Stack, Grid } from "@mui/material";
 import SongList from "./SongList";
-import "../styles/Home.css";
+import "../../styles/Home.css";
 import CardMenu from "./CardMenu";
-import { useGetSongsQuery } from "../services/songAPIs";
+import { useGetSongsQuery } from "../../services/songAPIs";
 
 export default function Home() {
-  const { data, isFetching } = useGetSongsQuery();
+  const { data, isFetching } = useGetSongsQuery("Allsongs", {refetchOnMountOrArgChange: true});
+  console.log(data);
 
   return (
     <div className="home">
@@ -30,5 +29,4 @@ export default function Home() {
       <div className="AudioList">{!isFetching && <SongList data={data} />}</div>
     </div>
   );
-  Z;
 }

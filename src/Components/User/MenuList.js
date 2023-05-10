@@ -23,7 +23,7 @@ const MenuList = [
     id: 3,
     icon: <BiLibrary />,
     name: "Your library",
-    path: "/library"
+    path: "/user/library"
   },
 
   // {

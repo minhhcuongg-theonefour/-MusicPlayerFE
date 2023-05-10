@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { FaHeadphones, FaRegClock, FaRegHeart, FaHeart } from "react-icons/fa";
 import { Songs } from "./Songs";
-import "../styles/LeftMenu.css";
-import { setCurrentSong } from "../features/songSlice";
+import "../../styles/LeftMenu.css";
+import { setCurrentSong } from "../../features/songSlice";
 import { useDispatch } from "react-redux";
+import { calculateTime } from "../../utils/helper";
 
-export default function SongList({data}) {
+export default function SongList({ data }) {
   const [songs, setSongs] = useState(data);
   const [song, setSong] = useState(data[0]?.file_url);
   const [img, setImage] = useState(data[0]?.image);
   const [name, setName] = useState(data[0]?.name);
   const [auto, setAuto] = useState(true);
 
-  const dispatch = useDispatch()
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     const allSongs = document.querySelectorAll(".songs");
@@ -39,9 +41,7 @@ export default function SongList({data}) {
           <div
             className="songs"
             key={song?.id}
-            onClick={() =>
-              setMainSong(song?.file_url, song?.image, song?.name)
-            }
+            onClick={() => setMainSong(song?.file_url, song?.image, song?.name)}
           >
             <div className="count">
               <p>{`#${index + 1}`}</p>
@@ -52,8 +52,7 @@ export default function SongList({data}) {
               </div>
               <div className="section">
                 <p className="songName">
-                  {song?.name}{" "}
-                  <span className="songSpan">{song?.singer}</span>
+                  {song?.name} <span className="songSpan">{song?.singer}</span>
                 </p>
 
                 <div className="hits">
@@ -68,7 +67,7 @@ export default function SongList({data}) {
                     <i>
                       <FaRegClock />
                     </i>
-                    03:04
+                    {calculateTime(song?.duration)}
                   </p>
                 </div>
               </div>

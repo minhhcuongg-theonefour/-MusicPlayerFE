@@ -1,5 +1,5 @@
 import React from "react";
-import "../styles/LeftMenu.css";
+import "../../styles/LeftMenu.css"
 import { FaSpotify, FaEllipsisH } from "react-icons/fa";
 import { BiSearchAlt } from "react-icons/bi";
 import {FiMusic} from "react-icons/fi"

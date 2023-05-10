@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState } from "react";
 import { CssVarsProvider } from "@mui/joy/styles";
 import Sheet from "@mui/joy/Sheet";
 import Typography from "@mui/joy/Typography";
@@ -8,9 +8,44 @@ import Input from "@mui/joy/Input";
 import Button from "@mui/joy/Button";
 import Link from "@mui/joy/Link";
 import { Box } from "@mui/joy";
-import "../styles/Login.css";
+import {
+  loginStart,
+  loginSuccess,
+  loginFailed,
+} from "../../features/authSlice";
+import "../../styles/Login.css";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useLoginMutation } from "../../services/authAPIs";
+import { toast } from "react-hot-toast";
 
 export default function Login() {
+  const [login] = useLoginMutation();
+
+  const [values, setValues] = useState({
+    username: "",
+    password: "",
+  });
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    dispatch(loginStart);
+    try {
+      const { data } = await login(values);
+      dispatch(loginSuccess(data));
+      toast.success("Login success !");
+      navigate("/")
+    } catch (err) {
+      toast.error("Login failed");
+      dispatch(loginFailed());
+    }
+    setValues(values);
+    console.log(values);
+  };
+
   return (
     <div className="login">
       <CssVarsProvider>
@@ -42,12 +77,14 @@ export default function Login() {
               {/* <Typography level="body2">Sign in to continue.</Typography> */}
             </div>
             <FormControl>
-              <FormLabel sx={{ color: "#fff" }}>Email</FormLabel>
+              <FormLabel sx={{ color: "#fff" }}>User name</FormLabel>
               <Input
                 // html input attribute
-                name="email"
-                type="email"
-                placeholder="johndoe@email.com"
+                name="username"
+                placeholder="Example: jenny"
+                onChange={(e) =>
+                  setValues({ ...values, username: e.target.value })
+                }
               />
             </FormControl>
             <FormControl>
@@ -57,10 +94,14 @@ export default function Login() {
                 name="password"
                 type="password"
                 placeholder="password"
+                onChange={(e) =>
+                  setValues({ ...values, password: e.target.value })
+                }
               />
             </FormControl>
 
             <Button
+              onClick={handleLogin}
               sx={{
                 mt: 1,
                 backgroundColor: "#46B191",
@@ -73,8 +114,8 @@ export default function Login() {
             </Button>
             <Typography
               endDecorator={
-                <Link href="/sign-up" sx={{ color: "#fff" }}>
-                  Sign up
+                <Link href="/register" sx={{ color: "#1abc9c" }}>
+                  Register
                 </Link>
               }
               fontSize="sm"

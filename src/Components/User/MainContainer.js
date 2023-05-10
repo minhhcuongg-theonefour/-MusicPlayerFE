@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import "../styles/MainContainer.css";
+import "../../styles/MainContainer.css";
 import { AudioList } from "./AudioList";
 import { Banner } from "./Banner";
 

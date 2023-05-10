@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import "../styles/MusicPlayer.css";
+import "../../styles/MusicPlayer.css";
 import {
   FaRegHeart,
   FaHeart,
@@ -13,6 +13,7 @@ import {
 } from "react-icons/fa";
 import {BsShuffle} from "react-icons/bs";
 import {ImLoop} from "react-icons/im"
+import { calculateTime } from "../../utils/helper";
 
 function MusicPlayer({ song, imgSrc, name, auto }) {
   const [isLove, setLove] = useState(false);
@@ -61,14 +62,6 @@ function MusicPlayer({ song, imgSrc, name, auto }) {
     } else {
       audioPlayer.current.pause();
     }
-  };
-
-  const calculateTime = (sec) => {
-    const minutes = Math.floor(sec / 60);
-    const returnMin = minutes < 10 ? `0${minutes}` : `${minutes}`;
-    const seconds = Math.floor(sec % 60);
-    const returnSec = seconds < 10 ? `0${seconds}` : `${seconds}`;
-    return `${returnMin} : ${returnSec}`;
   };
 
   const changeProgress = () => {

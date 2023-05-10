@@ -12,7 +12,7 @@ import {
 import React, { useEffect, useState } from "react";
 import Avatar from "@mui/joy/Avatar";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import "../styles/Profile.css";
+import "../../styles/Profile.css";
 
 export default function Profile() {
   const settings = ["Edit profile", "Change password"];

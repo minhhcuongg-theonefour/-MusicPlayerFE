@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import "../styles/LeftMenu.css";
+import "../../styles/LeftMenu.css";
 import { Link } from "react-router-dom";
 
 function Menu({ title, listObject }) {
