@@ -11,8 +11,8 @@ import {
   FaPause,
   FaShareAlt,
 } from "react-icons/fa";
-import {BsShuffle} from "react-icons/bs";
-import {ImLoop} from "react-icons/im"
+import { BsShuffle } from "react-icons/bs";
+import { ImLoop } from "react-icons/im";
 import { calculateTime } from "../../utils/helper";
 
 function MusicPlayer({ song, imgSrc, name, auto }) {
@@ -27,7 +27,10 @@ function MusicPlayer({ song, imgSrc, name, auto }) {
   const animationRef = useRef(); //  reference to our animation
 
   const whilePlaying = () => {
-    progressBar.current.value = audioPlayer.current.currentTime;
+    if (progressBar.current?.value) {
+      progressBar.current.value = audioPlayer?.current?.currentTime;
+    }
+
     changeCurrentTime();
     // need to run more than once
     animationRef.current = requestAnimationFrame(whilePlaying);
@@ -67,23 +70,25 @@ function MusicPlayer({ song, imgSrc, name, auto }) {
   const changeProgress = () => {
     audioPlayer.current.currentTime = progressBar.current.value;
 
-    progressBar.current.style.setProperty(
-      "--played-width",
-      `${(progressBar.current.value / duration) * 100}%`
-    );
-
-    setCurrenttime(progressBar.current.value);
+    if (progressBar.current?.style) {
+      progressBar.current?.style.setProperty(
+        "--played-width",
+        `${(progressBar.current.value / duration) * 100}%`
+      );
+      setCurrenttime(progressBar.current.value);
+    }
 
     changeCurrentTime();
   };
 
   const changeCurrentTime = () => {
-    progressBar.current.style.setProperty(
-      "--played-width",
-      `${(progressBar.current.value / duration) * 100}%`
-    );
-
-    setCurrenttime(progressBar.current.value);
+    if (progressBar.current?.style) {
+      progressBar.current?.style.setProperty(
+        "--played-width",
+        `${(progressBar.current?.value / duration) * 100}%`
+      );
+      setCurrenttime(progressBar.current.value);
+    }
   };
 
   const changeSongLove = () => {

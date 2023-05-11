@@ -10,17 +10,16 @@ import { selectCurrentAccessToken } from "../../features/authSlice";
 
 const Layout = () => {
   const song = useSelector((state) => state.song);
-  const token = useSelector(selectCurrentAccessToken);
-  console.log(song)
+  // console.log(song)
 
   return (
     <>
       <LeftMenu />
       <div className="mainContainer">
         <Suspense fallback={<div>Loading...</div>}>
-          <PersistGate loading={null} persistor={persistor}>
+          {/* <PersistGate loading={null} persistor={persistor}> */}
             <Outlet />
-          </PersistGate>
+          {/* </PersistGate> */}
         </Suspense>
       </div>
       {song?.name && (

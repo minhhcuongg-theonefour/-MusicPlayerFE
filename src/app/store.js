@@ -1,8 +1,6 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { music } from "../services/musicBaseApis";
 import { setupListeners } from "@reduxjs/toolkit/dist/query";
-import songSlice from "../features/songSlice";
-import authSlice from "../features/authSlice";
 import {
   persistStore,
   persistReducer,
@@ -14,11 +12,14 @@ import {
   REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import songSlice from "../features/songSlice";
+import authSlice from "../features/authSlice";
 
 const persistConfig = {
   key: "root",
   version: 1,
   storage,
+  whitelist: ["auth"],
 };
 
 const rootReducer = combineReducers({
@@ -29,7 +30,7 @@ const rootReducer = combineReducers({
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-export const store = configureStore({
+const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -43,3 +44,5 @@ export const store = configureStore({
 export let persistor = persistStore(store);
 
 setupListeners(store.dispatch);
+
+export default store;

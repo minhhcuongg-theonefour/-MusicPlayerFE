@@ -2,10 +2,10 @@ import React from "react";
 import artist from "../../img/artist.jpg";
 import check from "../../img/check.png";
 import { FaEllipsisH, FaHeadphones, FaCheck } from "react-icons/fa";
-function Banner({ genreDetail, genreDetailFetching }) {
+function BannerPlaylist({ playlist }) {
   return (
     <div className="Banner">
-      <img src={genreDetail?.image} alt="" className="bannerImg" />
+      <img src={playlist?.image} alt="" className="bannerImg" />
 
       <div className="content">
         <div className="breadCrump">
@@ -20,26 +20,19 @@ function Banner({ genreDetail, genreDetailFetching }) {
         <div className="artist">
           <div className="left">
             <div className="name">
-              <h2>{genreDetail?.name}</h2>
-              <img src={check} alt="" />
+              <h2>{playlist?.name}</h2>
             </div>
 
             <p>
               <i>
                 <FaHeadphones />
               </i>
-              11,184,1811 <span>Monthly Listeners</span>
+              <span>Your private playlist</span>
             </p>
           </div>
 
           <div className="right">
             <a href="#"> Play</a>
-            <a href="#">
-              <i>
-                <FaCheck />
-              </i>
-              Following
-            </a>
           </div>
         </div>
       </div>
@@ -49,4 +42,4 @@ function Banner({ genreDetail, genreDetailFetching }) {
   );
 }
 
-export { Banner };
+export { BannerPlaylist };

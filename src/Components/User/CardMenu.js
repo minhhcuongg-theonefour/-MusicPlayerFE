@@ -4,25 +4,28 @@ import Card from "@mui/joy/Card";
 import Typography from "@mui/joy/Typography";
 import { CardContent, CardMedia } from "@mui/material";
 
-export default function CardMenu() {
+export default function CardMenu({ el }) {
   return (
     <Box width={200} height={160}>
+      {/* {genres?.map((item) => ( */}
       <Card sx={{ borderRadius: 5, backgroundColor: "#454545" }}>
         <CardMedia
+          sx={{ width: "165px", height: "180px" }}
           component="img"
-          image="https://i.scdn.co/image/ab67616d0000b273212d776c31027c511f0ee3bc"
+          image={el?.image}
         />
         <CardContent sx={{ padding: 0 }}>
           <Typography
-            level="h4"
+            level="h6"
             sx={{
               color: "#fff",
             }}
           >
-            Pop
+            {el?.name}
           </Typography>
         </CardContent>
       </Card>
+      {/* ))} */}
     </Box>
   );
 }

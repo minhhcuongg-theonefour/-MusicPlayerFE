@@ -25,10 +25,10 @@ function Menu({ title, listObject }) {
           listObject.map((li) => (
             <li key={li.id}>
               <Link to={li.path}>
-                <a>
+                {/* <a> */}
                   <i>{li.icon}</i>
                   <span> {li.name}</span>
-                </a>
+                {/* </a> */}
               </Link>
             </li>
           ))}

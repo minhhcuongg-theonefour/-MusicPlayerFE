@@ -6,6 +6,7 @@ const song = createSlice({
     song: "",
     auto: true,
     name: "",
+    singer: "",
     imgSrc: "",
   },
   reducers: {
@@ -13,10 +14,15 @@ const song = createSlice({
       state.song = action.payload.song;
       state.name = action.payload.name;
       state.imgSrc = action.payload.imgSrc;
+      state.singer = action.payload.singer;
     },
   },
 });
 
 export const { setCurrentSong } = song.actions;
+
+export const currentSongName = (state) => state.song.name;
+export const currentSingerName = (state) => state.song.singer;
+export const currentImg = (state) => state.song.imgSrc;
 
 export default song.reducer;

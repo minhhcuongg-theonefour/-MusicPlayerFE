@@ -8,8 +8,11 @@ import {
   useGetPlaylistQuery,
   useRemovePlaylistMutation,
 } from "../../services/playlistAPIs";
+import { useNavigate } from "react-router-dom";
 
 function MenuPlayList() {
+  const navigate = useNavigate();
+
   const [createPlaylist] = useCreatePlaylistMutation();
 
   const { data, isFetching } = useGetPlaylistQuery("userPlaylist", {
@@ -19,7 +22,11 @@ function MenuPlayList() {
   const [removePlaylist] = useRemovePlaylistMutation();
 
   const hanldeCreatePlaylist = async (e) => {
-    await createPlaylist({ name: "Unnamed playlist" });
+    await createPlaylist({
+      name: "#Unnamed playlist",
+      image:
+        "https://res.cloudinary.com/doqhasjec/image/upload/v1683789765/B2CDMusic/defaultPlaylist_vco9j8.png",
+    });
   };
 
   const handleDelete = async (id) => {
@@ -43,7 +50,7 @@ function MenuPlayList() {
               <i className="list">
                 <BsMusicNoteList />
               </i>
-              <p>{list?.name}</p>
+              <p onClick={() => navigate(`/user/playlist/${list?.id}`)}>{list?.name}</p>
               <i className="trash" onClick={() => handleDelete(list?.id)}>
                 <BsTrash />
               </i>

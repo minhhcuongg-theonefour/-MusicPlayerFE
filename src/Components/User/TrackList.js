@@ -4,11 +4,11 @@ import Track from "../../img/track.png";
 import { BsFillVolumeUpFill, BsMusicNoteList } from "react-icons/bs";
 import { FaDesktop } from "react-icons/fa";
 
-function TrackList({ trackName, artistName }) {
+function TrackList({ trackName, artistName, img }) {
   return (
     <div className="trackList">
       <div className="top">
-        <img src={Track} />
+        <img src={img} />
         <p>
           {trackName} <span>{artistName}</span>
         </p>

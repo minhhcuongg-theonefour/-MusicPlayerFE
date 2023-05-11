@@ -203,7 +203,14 @@
 }
 
 .trackList .top img {
-  width: 50px !important;
+  display: flex;
+  align-items: center;
+  width: 100%;
+
+  width: 55px ;
+  height: 55px;
+  border-radius: 0.5em;
+
 }
 
 .trackList .top p {
