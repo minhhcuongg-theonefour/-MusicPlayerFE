@@ -30,6 +30,7 @@ function MainContainer() {
       <div className="menuList"></div>
       <AudioList
         data={genreDetail}
+        source="song"
       />
     </>
   );

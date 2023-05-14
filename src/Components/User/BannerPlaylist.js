@@ -1,8 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import artist from "../../img/artist.jpg";
 import check from "../../img/check.png";
 import { FaEllipsisH, FaHeadphones, FaCheck } from "react-icons/fa";
-function BannerPlaylist({ playlist }) {
+import RenamePlaylistDialog from "./RenamePlaylistDialog";
+import { useUpdatePlaylistMutation } from "../../services/playlistAPIs";
+function BannerPlaylist({ playlist, id }) {
+  const [openDialog, setOpenDialog] = useState(false);
+
+
+  const handleOpenRenameDialog = () => {
+    console.log("this clicked");
+    setOpenDialog(true);
+  };
+
   return (
     <div className="Banner">
       <img src={playlist?.image} alt="" className="bannerImg" />
@@ -12,11 +22,13 @@ function BannerPlaylist({ playlist }) {
           {/* <p>
             Home <span>/Popular Artist</span>
           </p> */}
-          <i>
+          {/* <i onClick={handleOpenRenameDialog}>
             <FaEllipsisH />
-          </i>
+          </i> */}
         </div>
-
+        <div>
+          <RenamePlaylistDialog open={handleOpenRenameDialog} id={id} />
+        </div>
         <div className="artist">
           <div className="left">
             <div className="name">

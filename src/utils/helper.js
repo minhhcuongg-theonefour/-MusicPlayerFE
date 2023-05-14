@@ -8,4 +8,20 @@ const calculateTime = (sec) => {
   return `${returnMin} : ${returnSec}`;
 };
 
-export { calculateTime };
+const isValidImage = (img) => {
+  const fileSize = img.size / 1024 / 1024;
+
+  const fileType = img.type;
+
+  if (fileSize <= 10) {
+    if (
+      fileType === "image/jpeg" ||
+      fileType === "image/jpg" ||
+      fileType === "image/png"
+    )
+      return true;
+  }
+  return false;
+};
+
+export { calculateTime, isValidImage };

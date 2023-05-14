@@ -8,9 +8,15 @@ function TrackList({ trackName, artistName, img }) {
   return (
     <div className="trackList">
       <div className="top">
-        <img src={img} />
+        <img
+          src={
+            img
+              ? img
+              : "https://res.cloudinary.com/doqhasjec/image/upload/v1683789765/B2CDMusic/defaultPlaylist_vco9j8.png"
+          }
+        />
         <p>
-          {trackName} <span>{artistName}</span>
+          {trackName ? trackName : "No song is playing currently"} <span>{artistName}</span>
         </p>
       </div>
 
@@ -24,7 +30,6 @@ function TrackList({ trackName, artistName, img }) {
         <i>
           <BsMusicNoteList />
         </i>
-
       </div>
     </div>
   );

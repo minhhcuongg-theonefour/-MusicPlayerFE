@@ -14,6 +14,14 @@ import {
 import { BsShuffle } from "react-icons/bs";
 import { ImLoop } from "react-icons/im";
 import { calculateTime } from "../../utils/helper";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  currentIndex,
+  currentSource,
+  setCurrentIndexSong,
+  setCurrentSong,
+} from "../../features/songSlice";
+import { useGetSongByDirectionQuery } from "../../services/songAPIs";
 
 function MusicPlayer({ song, imgSrc, name, auto }) {
   const [isLove, setLove] = useState(false);
@@ -25,6 +33,36 @@ function MusicPlayer({ song, imgSrc, name, auto }) {
   const audioPlayer = useRef(); //   reference to our audio component
   const progressBar = useRef(); //   reference to our prgressbar
   const animationRef = useRef(); //  reference to our animation
+
+  const sourceSong = useSelector(currentSource);
+  const indexSong = useSelector(currentIndex);
+  const [direction, setDirection] = useState("");
+
+  const { data, isFetching } = useGetSongByDirectionQuery(
+    {
+      index: indexSong,
+      direction: direction,
+    },
+    {
+      skip: !direction || !indexSong,
+    }
+  );
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!isFetching && data) {
+      dispatch(
+        setCurrentSong({
+          imgSrc: data?.image,
+          song: data?.file_url,
+          name: data?.name,
+          singer: data?.singer,
+        })
+      );
+      setDirection('');
+    }
+  }, [isFetching, data]);
 
   const whilePlaying = () => {
     if (progressBar.current?.value) {
@@ -91,6 +129,20 @@ function MusicPlayer({ song, imgSrc, name, auto }) {
     }
   };
 
+  const handleNextSong = () => {
+    dispatch(setCurrentIndexSong({ index: indexSong + 1 }));
+    setDirection("next");
+    console.log(data)
+
+    if (data) {
+    }
+  };
+
+  const handlePrevSong = () => {
+    dispatch(setCurrentIndexSong({ index: indexSong - 1 }));
+    setDirection("prev");
+  }
+
   const changeSongLove = () => {
     setLove(!isLove);
   };
@@ -126,7 +178,7 @@ function MusicPlayer({ song, imgSrc, name, auto }) {
               <i>
                 <BsShuffle />
               </i>
-              <i>
+              <i onClick={handlePrevSong}>
                 <FaStepBackward />
               </i>
             </div>
@@ -142,7 +194,7 @@ function MusicPlayer({ song, imgSrc, name, auto }) {
               )}
             </div>
             <div className="forward">
-              <i>
+              <i onClick={handleNextSong}>
                 <FaStepForward />
               </i>
               <i>

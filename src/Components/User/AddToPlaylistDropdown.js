@@ -47,6 +47,12 @@ function AddToPlaylist({ song }) {
           <BsThreeDotsVertical />
         </IconButton>
         <Menu
+          PaperProps={{
+            style: {
+              backgroundColor: "#3e3e3e",
+              boxShadow: "none",
+            },
+          }}
           id="fade-menu"
           MenuListProps={{
             "aria-labelledby": "fade-button",
@@ -59,12 +65,21 @@ function AddToPlaylist({ song }) {
           <Typography
             fontSize="30"
             weight="medium"
+            color="#fff"
             sx={{ display: "flex", justifyContent: "center" }}
           >
             Add to :
           </Typography>
           {playlistUser?.map((item) => (
             <MenuItem
+              sx={{
+                color: "#fff",
+                "&:hover": {
+                  backgroundColor: "#27b7b7",
+                },
+                minWidth: 150,
+                maxWidth: 150,
+              }}
               onClick={(e) => handleAddToPlaylist(e, item?.id, song?.id)}
             >
               {item?.name}

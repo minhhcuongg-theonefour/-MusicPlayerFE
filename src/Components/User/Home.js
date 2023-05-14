@@ -41,7 +41,7 @@ export default function Home() {
         <>
           <h1 className="title">Songs</h1>
           <div className="AudioList">
-            <SongList data={data} />
+            <SongList data={data} source="song" />
           </div>
         </>
       )}

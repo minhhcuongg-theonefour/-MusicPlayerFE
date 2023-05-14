@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { calculateTime } from "../../utils/helper";
 import AddToPlaylistDropdown from "./AddToPlaylistDropdown";
 
-export default function SongList({ data }) {
+export default function SongList({ data, source }) {
   // const [songs, setSongs] = useState(data);
   const [song, setSong] = useState(data ? data[0]?.file_url : "");
   const [img, setImage] = useState(data ? data[0]?.image : "");
@@ -28,12 +28,13 @@ export default function SongList({ data }) {
     allSongs.forEach((n) => n.addEventListener("click", changeActive));
   }, []);
 
-  const setMainSong = (file_url, image, name) => {
+  const setMainSong = (file_url, image, name, singer, index) => {
     setSong(file_url);
     setImage(image);
     setName(name);
+    setSinger(singer);
     setAuto(true);
-    dispatch(setCurrentSong({ song: file_url, name, imgSrc: image, singer }));
+    dispatch(setCurrentSong({ song: file_url, name, imgSrc: image, singer, index, source }));
   };
 
   return (
@@ -42,7 +43,15 @@ export default function SongList({ data }) {
         <div
           className="songs"
           key={song?.id}
-          onClick={() => setMainSong(song?.file_url, song?.image, song?.name)}
+          onClick={() =>
+            setMainSong(
+              song?.file_url,
+              song?.image,
+              song?.name,
+              song?.singer,
+              index
+            )
+          }
         >
           {/* id accend */}
           <div className="count">
@@ -78,7 +87,7 @@ export default function SongList({ data }) {
           </div>
 
           {/* option add to playlist */}
-          <AddToPlaylistDropdown song={song}/>
+          <AddToPlaylistDropdown song={song} />
         </div>
       ))}
     </div>

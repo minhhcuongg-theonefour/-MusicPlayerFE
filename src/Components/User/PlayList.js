@@ -6,15 +6,16 @@ import { useParams } from "react-router-dom";
 import { useGetDetailsPlaylistQuery } from "../../services/playlistAPIs";
 
 function Playlist() {
-  const id = useParams();
+  const { id } = useParams();
 
-  const {data: playlist, isFetching: playlistFetching} = useGetDetailsPlaylistQuery(id);
+  const { data: playlist, isFetching: playlistFetching } =
+    useGetDetailsPlaylistQuery(id);
 
   return (
     <>
-      <BannerPlaylist playlist={playlist}/>
+      <BannerPlaylist playlist={playlist} id={id} />
       <div className="menuList"></div>
-      <AudioList data={playlist} />
+      <AudioList data={playlist} source="playlist" />
     </>
   );
 }

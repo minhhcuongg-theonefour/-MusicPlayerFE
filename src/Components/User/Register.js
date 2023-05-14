@@ -15,10 +15,17 @@ import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import { toast } from "react-hot-toast";
 import { useDispatch } from "react-redux";
 import { useRegisterMutation } from "../../services/authAPIs";
-import { registerStart, registerSuccess, registerFailed } from "../../features/authSlice";
+import {
+  registerStart,
+  registerSuccess,
+  registerFailed,
+} from "../../features/authSlice";
+import { useNavigate } from "react-router-dom";
 
 export default function Register() {
   const [register] = useRegisterMutation();
+
+  const navigate = useNavigate();
 
   const [values, setValues] = useState({
     username: "",
@@ -45,10 +52,9 @@ export default function Register() {
       const v = await register(values);
       dispatch(registerSuccess(v));
       toast.success("Welcome to B2CD Music");
-    }
-    catch (err){
-      toast.error("Register failed"),
-      dispatch(registerFailed())
+      navigate("/login");
+    } catch (err) {
+      toast.error("Register failed"), dispatch(registerFailed());
     }
     // console.log(values);
   };

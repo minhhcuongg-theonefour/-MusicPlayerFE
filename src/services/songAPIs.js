@@ -5,9 +5,12 @@ const song = music.injectEndpoints({
     getSongs: builder.query({
       query: () => "songs?page=1&limit=100",
     }),
-    providesTags: ["SongItems"],
+    getSongByDirection: builder.query({
+      query: ({ index, direction }) =>
+        `songs/index/${index}?direction=${direction}`,
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useGetSongsQuery } = song;
+export const { useGetSongsQuery, useGetSongByDirectionQuery } = song;

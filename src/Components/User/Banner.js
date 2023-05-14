@@ -8,14 +8,7 @@ function Banner({ genreDetail, genreDetailFetching }) {
       <img src={genreDetail?.image} alt="" className="bannerImg" />
 
       <div className="content">
-        <div className="breadCrump">
-          {/* <p>
-            Home <span>/Popular Artist</span>
-          </p> */}
-          <i>
-            <FaEllipsisH />
-          </i>
-        </div>
+
 
         <div className="artist">
           <div className="left">

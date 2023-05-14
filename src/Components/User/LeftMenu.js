@@ -32,9 +32,6 @@ function LeftMenu() {
           <h2>B2CD</h2>
         </div>
 
-        <i>
-          <FaEllipsisH />
-        </i>
       </div>
 
       <div className="searchBox">
