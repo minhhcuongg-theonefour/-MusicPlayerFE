@@ -37,14 +37,15 @@ function MusicPlayer({ song, imgSrc, name, auto }) {
   const sourceSong = useSelector(currentSource);
   const indexSong = useSelector(currentIndex);
   const [direction, setDirection] = useState("");
+  const [currIndex, setCurrIndex] = useState(null);
 
   const { data, isFetching } = useGetSongByDirectionQuery(
     {
-      index: indexSong,
+      index: currIndex,
       direction: direction,
     },
     {
-      skip: !direction || !indexSong,
+      skip: !direction,
     }
   );
 
@@ -130,17 +131,20 @@ function MusicPlayer({ song, imgSrc, name, auto }) {
   };
 
   const handleNextSong = () => {
-    dispatch(setCurrentIndexSong({ index: indexSong + 1 }));
-    setDirection("next");
-    console.log(data)
-
-    if (data) {
+    if (indexSong < 4) {
+      setCurrIndex(indexSong);
+      dispatch(setCurrentIndexSong({ index: indexSong + 1 }));
+      setDirection("next");
     }
   };
 
   const handlePrevSong = () => {
-    dispatch(setCurrentIndexSong({ index: indexSong - 1 }));
-    setDirection("prev");
+    if (indexSong > 0) {
+    console.log(indexSong)
+      setCurrIndex(indexSong);
+      dispatch(setCurrentIndexSong({ index: indexSong - 1 }));
+      setDirection("prev");
+    }
   }
 
   const changeSongLove = () => {
