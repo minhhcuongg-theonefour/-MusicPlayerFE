@@ -4,14 +4,19 @@ import CardMenu from "./CardMenu";
 import { useNavigate } from "react-router-dom";
 import "../../styles/Home.css";
 import { useGetPlaylistQuery } from "../../services/playlistAPIs";
+import NoSongBox from "./NoSongBox";
 export default function Library() {
   const navigate = useNavigate();
 
   const { data: userPlaylist, isFetching: userPlaylistFetching } =
     useGetPlaylistQuery();
 
-  return (
-    <>
+  console.log(userPlaylist);
+
+  const totalPlaylist = userPlaylist?.length;
+
+  return totalPlaylist ? (
+    <div>
       <h1 className="title">Your library</h1>
       <Grid container spacing={4}>
         {userPlaylist?.map((el) => (
@@ -23,10 +28,14 @@ export default function Library() {
             minHeight={280}
             marginBottom={3}
           >
-            <CardMenu el={el}/>
+            <CardMenu el={el} />
           </Grid>
         ))}
       </Grid>
-    </>
+    </div>
+  ) : (
+    <div>
+      <NoSongBox />
+    </div>
   );
 }

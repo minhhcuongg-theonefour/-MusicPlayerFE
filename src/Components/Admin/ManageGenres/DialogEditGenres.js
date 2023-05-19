@@ -9,13 +9,16 @@ import { FaEllipsisH, FaHeadphones, FaCheck } from "react-icons/fa";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { Box, Card, Typography } from "@mui/joy";
 import { Stack, TextField } from "@mui/material";
-import { useUpdatePlaylistMutation } from "../../services/playlistAPIs";
-import { isValidImage } from "../../utils/helper";
-import { toast } from "react-hot-toast";
-import { useGetDetailsPlaylistQuery } from "../../services/playlistAPIs";
+import { Edit } from "@mui/icons-material";
+import { isValidImage } from "../../../utils/helper";
 import { PhotoCamera } from "@mui/icons-material";
+import {
+  useGetGenreDetailsQuery,
+  useUpdateGenresMutation,
+} from "../../../services/genresAPIs";
+import { toast } from "react-hot-toast";
 
-export default function RenamePlaylistDialog({ id }) {
+export default function DialogEditGenres({ genresId }) {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -25,6 +28,10 @@ export default function RenamePlaylistDialog({ id }) {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const { data, isFetching } = useGetGenreDetailsQuery(genresId);
+
+  const [genresInfo, setGenresInfo] = useState(data);
 
   //clear prev avatar in cache
   const [avatar, setAvatar] = useState("");
@@ -48,31 +55,27 @@ export default function RenamePlaylistDialog({ id }) {
     }
   };
 
-  const [updatePlaylist, { isLoading }] = useUpdatePlaylistMutation();
+  // const {data}
+  const [updateGenres, { isLoading }] = useUpdateGenresMutation();
 
-  const { data, isFetching } = useGetDetailsPlaylistQuery(id);
-
-  const [playlistInfo, setPlaylistInfo] = useState(data);
-
-  useEffect(() => {
-    setPlaylistInfo(data);
-  }, [isFetching]);
-
-  const handleUpdatePlaylist = async () => {
+  const handleUpdateGenres = async () => {
     const formData = new FormData();
-    formData.append("name", playlistInfo?.name);
+    formData.append("name", genresInfo?.name);
 
     if (avatar) {
       formData.append("image", avatar);
     }
-    await updatePlaylist({ id, formData });
-    toast.success("Your playlist updated");
+    await updateGenres({ id: genresId, formData });
+
+    toast.success("Genre updated");
     handleClose();
+
   };
+
   return (
-    <div className="breadCrump">
+    <>
       <i onClick={handleClickOpen}>
-        <FaEllipsisH />
+        <Edit />
       </i>
       <Dialog
         PaperProps={{
@@ -93,14 +96,15 @@ export default function RenamePlaylistDialog({ id }) {
         style={{ minWidth: "100%", minHeight: "100%" }}
       >
         <DialogTitle sx={{ color: "#fff" }} id="alert-dialog-title">
-          Update your playlist
+          Update genres
         </DialogTitle>
         <DialogContent>
           <Grid container>
             <Grid item xs={3} sm={5}>
               <Typography fontSize={16} sx={{ marginBottom: 1, color: "#fff" }}>
-                Change your playlist photo
+                Select image for genres
               </Typography>
+
               <img
                 style={{
                   width: "200px",
@@ -145,7 +149,7 @@ export default function RenamePlaylistDialog({ id }) {
                 name="name"
                 defaultValue={data?.name}
                 onChange={(e) =>
-                  setPlaylistInfo({ ...playlistInfo, name: e.target.value })
+                  setGenresInfo({ ...genresInfo, name: e.target.value })
                 }
               ></TextField>
             </Grid>
@@ -178,7 +182,7 @@ export default function RenamePlaylistDialog({ id }) {
                   backgroundColor: "#27b7b7",
                 },
               }}
-              onClick={handleUpdatePlaylist}
+              onClick={handleUpdateGenres}
               disabled={isLoading}
             >
               Update
@@ -186,6 +190,6 @@ export default function RenamePlaylistDialog({ id }) {
           </Stack>
         </DialogActions>
       </Dialog>
-    </div>
+    </>
   );
 }

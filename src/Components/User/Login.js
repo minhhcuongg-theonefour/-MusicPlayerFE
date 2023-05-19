@@ -36,8 +36,12 @@ export default function Login() {
     try {
       const { data } = await login(values);
       dispatch(loginSuccess(data));
-      toast.success("Login success !");
-      navigate("/")
+      {
+        data.user.username === "admin"
+          ? navigate("/admin/dashboard")
+          : navigate("/");
+      }
+      toast.success("Login success");
     } catch (err) {
       toast.error("Login failed");
       dispatch(loginFailed());

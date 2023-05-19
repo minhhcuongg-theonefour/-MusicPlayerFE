@@ -6,14 +6,36 @@ const genres = music.injectEndpoints({
       query: () => ({
         url: `genres?page=1&limit=10`,
       }),
+      providesTags: ["Genres"],
     }),
     getGenreDetails: builder.query({
-      query: ({id}) => ({
+      query: (id) => ({
         url: `genres/${id}`,
       }),
+    }),
+    addGenres: builder.mutation({
+      query: (formData) => ({
+        method: "POST",
+        url: "genres",
+        body: formData,
+      }),
+      invalidatesTags: ["Genres"],
+    }),
+    updateGenres: builder.mutation({
+      query: ({ id, formData }) => ({
+        method: "PUT",
+        url: `genres/${id}`,
+        body: formData,
+      }),
+      invalidatesTags: ["Genres"],
     }),
   }),
   overrideExisting: false,
 });
 
-export const { useGetGenresQuery, useGetGenreDetailsQuery } = genres;
+export const {
+  useGetGenresQuery,
+  useGetGenreDetailsQuery,
+  useAddGenresMutation,
+  useUpdateGenresMutation,
+} = genres;

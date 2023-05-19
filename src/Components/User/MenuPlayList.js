@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "../../styles/LeftMenu.css";
 import { FaPlus } from "react-icons/fa";
 import { BsMusicNoteList, BsTrash } from "react-icons/bs";
@@ -8,10 +8,15 @@ import {
   useGetPlaylistQuery,
   useRemovePlaylistMutation,
 } from "../../services/playlistAPIs";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import ConfirmDeletePlaylistDialog from "./ConfirmDeletePlaylistDialog";
+import { toast } from "react-hot-toast";
 
 function MenuPlayList() {
   const navigate = useNavigate();
+
+  var [playlistID, setPlaylistID] = useState("");
+  
 
   const [createPlaylist] = useCreatePlaylistMutation();
 
@@ -27,10 +32,13 @@ function MenuPlayList() {
       image:
         "https://res.cloudinary.com/doqhasjec/image/upload/v1683789765/B2CDMusic/defaultPlaylist_vco9j8.png",
     });
+    toast.success("New playlist created");
   };
 
-  const handleDelete = async (id) => {
-    await removePlaylist(id);
+  const handleDelete = async (playlistID) => {
+    await removePlaylist(playlistID);
+    toast.success("Your playlist has been removed");
+    navigate("/");
   };
 
   return (
@@ -50,10 +58,18 @@ function MenuPlayList() {
               <i className="list">
                 <BsMusicNoteList />
               </i>
-              <p onClick={() => navigate(`/user/playlist/${list?.id}`)}>{list?.name}</p>
-              <i className="trash" onClick={() => handleDelete(list?.id)}>
-                <BsTrash />
+              <p onClick={() => navigate(`/user/playlist/${list?.id}`)}>
+                {list?.name}
+              </p>
+              <i className="trash">
+                <ConfirmDeletePlaylistDialog
+                  handleDelete={() => handleDelete(list?.id)}
+                  playlistID={list?.id}
+                />
               </i>
+              {/* <i className="trash" onClick={() => handleDelete(list?.id)}>
+                <BsTrash />
+              </i> */}
             </div>
           ))}
       </div>

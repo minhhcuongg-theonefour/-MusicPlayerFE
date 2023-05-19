@@ -17,11 +17,15 @@ import { calculateTime } from "../../utils/helper";
 import { useDispatch, useSelector } from "react-redux";
 import {
   currentIndex,
+  currentLength,
+  currentPlaylistId,
+  currentSongId,
   currentSource,
   setCurrentIndexSong,
   setCurrentSong,
 } from "../../features/songSlice";
-import { useGetSongByDirectionQuery } from "../../services/songAPIs";
+import { useGetSongByControlQuery } from "../../services/songAPIs";
+import { useGetSongsQuery } from "../../services/songAPIs";
 
 function MusicPlayer({ song, imgSrc, name, auto }) {
   const [isLove, setLove] = useState(false);
@@ -38,30 +42,43 @@ function MusicPlayer({ song, imgSrc, name, auto }) {
   const indexSong = useSelector(currentIndex);
   const [direction, setDirection] = useState("");
   const [currIndex, setCurrIndex] = useState(null);
+  const [isShuffle, setIsShuffle] = useState(false);
 
-  const { data, isFetching } = useGetSongByDirectionQuery(
+  const data_length = useSelector(currentLength);
+  const playlist_id = useSelector(currentPlaylistId);
+  const songId = useSelector(currentSongId);
+
+  const { data, isFetching } = useGetSongByControlQuery(
     {
       index: currIndex,
       direction: direction,
+      playlistId: playlist_id,
+      source: sourceSong,
+      isShuffle,
+      songId: songId,
     },
     {
       skip: !direction,
+      refetchOnMountOrArgChange: true,
     }
   );
 
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log(direction);
     if (!isFetching && data) {
+      console.log(data);
       dispatch(
         setCurrentSong({
           imgSrc: data?.image,
           song: data?.file_url,
           name: data?.name,
           singer: data?.singer,
+          id: data?.id,
         })
       );
-      setDirection('');
+      setDirection("");
     }
   }, [isFetching, data]);
 
@@ -88,7 +105,6 @@ function MusicPlayer({ song, imgSrc, name, auto }) {
       setDuration(seconds);
       progressBar.current.max = seconds;
     });
-
     return () => {
       audioPlayer.current.removeEventListener("loadedmetadata", () => {});
     };
@@ -131,7 +147,7 @@ function MusicPlayer({ song, imgSrc, name, auto }) {
   };
 
   const handleNextSong = () => {
-    if (indexSong < 4) {
+    if (indexSong < data_length - 1) {
       setCurrIndex(indexSong);
       dispatch(setCurrentIndexSong({ index: indexSong + 1 }));
       setDirection("next");
@@ -140,12 +156,16 @@ function MusicPlayer({ song, imgSrc, name, auto }) {
 
   const handlePrevSong = () => {
     if (indexSong > 0) {
-    console.log(indexSong)
       setCurrIndex(indexSong);
       dispatch(setCurrentIndexSong({ index: indexSong - 1 }));
       setDirection("prev");
     }
-  }
+  };
+
+  const shuffleSong = () => {
+    setIsShuffle((prev) => !prev);
+    console.log("eee");
+  };
 
   const changeSongLove = () => {
     setLove(!isLove);
@@ -178,9 +198,13 @@ function MusicPlayer({ song, imgSrc, name, auto }) {
           </div>
 
           <div className="middle">
-            <div className="back">
-              <i>
-                <BsShuffle />
+            <div className="forward">
+              <i onClick={shuffleSong}>
+                {isShuffle ? (
+                  <BsShuffle style={{ color: "#27b7b7" }} />
+                ) : (
+                  <BsShuffle />
+                )}
               </i>
               <i onClick={handlePrevSong}>
                 <FaStepBackward />
@@ -197,12 +221,12 @@ function MusicPlayer({ song, imgSrc, name, auto }) {
                 </i>
               )}
             </div>
-            <div className="forward">
+            <div className="back">
               <i onClick={handleNextSong}>
-                <FaStepForward />
+                <FaStepForward style={{ color: "#9a9a9a" }} />
               </i>
               <i>
-                <ImLoop />
+                <ImLoop style={{ color: "#595959" }} />
               </i>
             </div>
           </div>

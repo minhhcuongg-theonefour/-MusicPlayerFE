@@ -81,6 +81,10 @@
 }
 
 .content .artist .left .name h2 {
+  /* width: 900px; */
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
   font-size: 50px;
 }
 
@@ -198,6 +202,7 @@
 
 .AudioList {
   padding: 10px 30px;
+  margin-bottom: 200px;
 }
 
 .AudioList .home {

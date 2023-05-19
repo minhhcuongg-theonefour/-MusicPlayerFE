@@ -51,6 +51,8 @@ function AddToPlaylist({ song }) {
             style: {
               backgroundColor: "#3e3e3e",
               boxShadow: "none",
+              minWidth: 180,
+              maxWidth: 180,
             },
           }}
           id="fade-menu"
@@ -68,7 +70,7 @@ function AddToPlaylist({ song }) {
             color="#fff"
             sx={{ display: "flex", justifyContent: "center" }}
           >
-            Add to :
+            Add to
           </Typography>
           {playlistUser?.map((item) => (
             <MenuItem
@@ -77,12 +79,21 @@ function AddToPlaylist({ song }) {
                 "&:hover": {
                   backgroundColor: "#27b7b7",
                 },
-                minWidth: 150,
-                maxWidth: 150,
+                minWidth: 180,
+                maxWidth: 180,
               }}
               onClick={(e) => handleAddToPlaylist(e, item?.id, song?.id)}
             >
-              {item?.name}
+              <Typography
+                sx={{
+                  mb: 0.1,
+                  textOverflow: "ellipsis",
+                  overflow: "hidden",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {item?.name}
+              </Typography>
             </MenuItem>
           ))}
         </Menu>

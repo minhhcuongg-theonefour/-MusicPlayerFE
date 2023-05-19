@@ -18,6 +18,20 @@ const Playlist = lazy(() => import("./Components/User/PlayList"));
 
 // {*****Admin Route---*****}
 const Dashboard = lazy(() => import("./Components/Admin/Dashboard"));
+const LayoutAdmin = lazy(() => import("./Components/Admin/Layout"));
+const ManageSong = lazy(() =>
+  import("./Components/Admin/ManageSong/MangeSong")
+);
+const ManageGenres = lazy(() =>
+  import("./Components/Admin/ManageGenres/ManageGenres")
+);
+const ManageSongDetails = lazy(() =>
+  import("./Components/Admin/ManageSong/ManageSongDetails")
+);
+const ManagaGenresDetails = lazy(() =>
+  import("./Components/Admin/ManageGenres/ManageGenresDetails.js")
+);
+const AddSong = lazy(() => import("./Components/Admin/ManageSong/AddSong"));
 
 const RouterCfg = [
   { path: "/login", element: <Login /> },
@@ -47,7 +61,23 @@ const RouterCfg = [
 
   {
     path: "/admin",
-    element: <Dashboard />,
+    element: <LayoutAdmin />,
+    children: [
+      {
+        element: <RequireAuth />,
+        children: [
+          { path: "dashboard", element: <Dashboard /> },
+          { path: "manage-song", element: <ManageSong /> },
+          { path: "manage-genres", element: <ManageGenres /> },
+          {
+            path: "manage-genres-details/:id",
+            element: <ManagaGenresDetails />,
+          },
+          { path: "manage-song-details/:id", element: <ManageSongDetails /> },
+          { path: "add-song", element: <AddSong /> },
+        ],
+      },
+    ],
   },
 ];
 

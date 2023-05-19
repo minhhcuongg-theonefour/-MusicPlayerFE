@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const song = createSlice({
   name: "song",
   initialState: {
+    id: "",
     song: "",
     auto: true,
     name: "",
@@ -10,6 +11,8 @@ const song = createSlice({
     imgSrc: "",
     index: "",
     source: "",
+    playlist_id: "",
+    data_length: "",
   },
   reducers: {
     setCurrentSong: (state, action) => {
@@ -17,10 +20,18 @@ const song = createSlice({
       state.name = action.payload.name;
       state.imgSrc = action.payload.imgSrc;
       state.singer = action.payload.singer;
+      state.id = action.payload.id;
 
-      if (action.payload?.index || action.payload?.source) {
+      if (
+        action.payload?.index ||
+        action.payload?.source ||
+        action.payload?.data_length ||
+        action.payload?.playlist_id
+      ) {
         state.index = action.payload.index;
         state.source = action.payload.source;
+        state.data_length = action.payload.data_length;
+        state.playlist_id = action.payload.playlist_id;
       }
     },
     setCurrentIndexSong: (state, action) => {
@@ -36,5 +47,8 @@ export const currentSingerName = (state) => state.song?.singer;
 export const currentImg = (state) => state.song?.imgSrc;
 export const currentSource = (state) => state.song?.source;
 export const currentIndex = (state) => state.song?.index;
+export const currentLength = (state) => state.song?.data_length;
+export const currentPlaylistId = (state) => state.song?.playlist_id;
+export const currentSongId = (state) => state.song?.id;
 
 export default song.reducer;

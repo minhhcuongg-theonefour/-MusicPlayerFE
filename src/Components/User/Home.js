@@ -41,7 +41,14 @@ export default function Home() {
         <>
           <h1 className="title">Songs</h1>
           <div className="AudioList">
-            <SongList data={data} source="song" />
+            {!isFetching && (
+              <SongList
+                data={data}
+                source="song"
+                data_length={data?.length}
+                playlist_id={null}
+              />
+            )}
           </div>
         </>
       )}

@@ -22,7 +22,7 @@ const playlist = music.injectEndpoints({
       query: (id) => ({
         url: `playlists/${id}`,
       }),
-      providesTags: ["UserAddToPlaylist"],
+      providesTags: ["UserPlaylist"],
     }),
     removePlaylist: builder.mutation({
       query: (id) => ({
@@ -36,7 +36,7 @@ const playlist = music.injectEndpoints({
         method: "POST",
         url: `playlists/${id_playlist}/songs/${id_song}`,
       }),
-      invalidatesTags: ["UserAddToPlaylist"],
+      invalidatesTags: ["UserPlaylist"],
     }),
     updatePlaylist: builder.mutation({
       query: ({ id, formData }) => ({

@@ -7,10 +7,10 @@ import { useUpdatePlaylistMutation } from "../../services/playlistAPIs";
 function BannerPlaylist({ playlist, id }) {
   const [openDialog, setOpenDialog] = useState(false);
 
-
   const handleOpenRenameDialog = () => {
     console.log("this clicked");
     setOpenDialog(true);
+    console.log("dialog");
   };
 
   return (
