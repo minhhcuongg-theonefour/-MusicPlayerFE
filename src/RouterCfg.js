@@ -70,10 +70,10 @@ const RouterCfg = [
           { path: "dashboard", element: <Dashboard /> },
           { path: "manage-song", element: <ManageSong /> },
           { path: "manage-genres", element: <ManageGenres /> },
-          {
-            path: "manage-genres-details/:id",
-            element: <ManagaGenresDetails />,
-          },
+          // {
+          //   path: "manage-genres-details/:id",
+          //   element: <ManagaGenresDetails />,
+          // },
           { path: "manage-song-details/:id", element: <ManageSongDetails /> },
           { path: "add-song", element: <AddSong /> },
         ],
