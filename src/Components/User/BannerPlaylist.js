@@ -43,9 +43,9 @@ function BannerPlaylist({ playlist, id }) {
             </p>
           </div>
 
-          <div className="right">
+          {/* <div className="right">
             <a href="#"> Play</a>
-          </div>
+          </div> */}
         </div>
       </div>
 

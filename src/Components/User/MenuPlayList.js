@@ -16,7 +16,6 @@ function MenuPlayList() {
   const navigate = useNavigate();
 
   var [playlistID, setPlaylistID] = useState("");
-  
 
   const [createPlaylist] = useCreatePlaylistMutation();
 
@@ -38,7 +37,7 @@ function MenuPlayList() {
   const handleDelete = async (playlistID) => {
     await removePlaylist(playlistID);
     toast.success("Your playlist has been removed");
-    navigate("/");
+    navigate("/user/library");
   };
 
   return (

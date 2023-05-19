@@ -1,6 +1,6 @@
 .mainContainer {
   height: 100vh;
-  flex-grow: 1;
+  flex-grow: 2;
   z-index: 1;
   background: rgba(34, 34, 34, 0.6);
   backdrop-filter: blur(10px);

@@ -63,7 +63,7 @@ export default function AddSong() {
     "AllGenres",
     { refetchOnMountOrArgChange: true }
   );
-  const [addSong] = useAddSongMutation();
+  const [addSong, { isLoading }] = useAddSongMutation();
 
   const audioRef = useRef(null);
 
@@ -199,6 +199,7 @@ export default function AddSong() {
           <Stack direction="row" spacing={3} sx={{ marginLeft: 40 }}>
             <Button
               variant="contained"
+              disabled={isLoading}
               sx={{
                 width: "50%",
                 backgroundColor: "#95a5a6",
@@ -211,6 +212,7 @@ export default function AddSong() {
             </Button>
             <Button
               variant="contained"
+              disabled={isLoading}
               sx={{
                 width: "50%",
                 backgroundColor: "#3498db",

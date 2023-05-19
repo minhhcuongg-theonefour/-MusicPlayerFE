@@ -37,7 +37,7 @@ export default function Login() {
       const { data } = await login(values);
       dispatch(loginSuccess(data));
       {
-        data.user.username === "admin"
+        data.user.role === "ADMIN"
           ? navigate("/admin/dashboard")
           : navigate("/");
       }

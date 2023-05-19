@@ -30,6 +30,7 @@ import { useGetSongsQuery } from "../../services/songAPIs";
 function MusicPlayer({ song, imgSrc, name, auto }) {
   const [isLove, setLove] = useState(false);
   const [isPlaying, setPlay] = useState(true);
+  const [isLoop, setLoop] = useState(false);
   //   duration state
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrenttime] = useState(0);
@@ -167,6 +168,11 @@ function MusicPlayer({ song, imgSrc, name, auto }) {
     console.log("eee");
   };
 
+  const handleLoop = () => {
+    console.log("this clicked");
+    
+  };
+
   const changeSongLove = () => {
     setLove(!isLove);
   };
@@ -203,7 +209,7 @@ function MusicPlayer({ song, imgSrc, name, auto }) {
                 {isShuffle ? (
                   <BsShuffle style={{ color: "#27b7b7" }} />
                 ) : (
-                  <BsShuffle />
+                  <BsShuffle style={{ color: "#9a9a9a" }} />
                 )}
               </i>
               <i onClick={handlePrevSong}>
@@ -225,16 +231,22 @@ function MusicPlayer({ song, imgSrc, name, auto }) {
               <i onClick={handleNextSong}>
                 <FaStepForward style={{ color: "#9a9a9a" }} />
               </i>
-              <i>
-                <ImLoop style={{ color: "#595959" }} />
-              </i>
+            </div>
+            <div className="back" onClick={handleLoop}>
+              {isLoop ? (
+                <i>
+                  <ImLoop style={{ color: "#27b7b7" }} />
+                </i>
+              ) : (
+                <i>
+                  <ImLoop style={{ color: "#9a9a9a" }} />
+                </i>
+              )}
             </div>
           </div>
 
           <div className="right">
-            <i>
-              <FaShareAlt />
-            </i>
+            <i>{/* <FaShareAlt /> */}</i>
           </div>
         </div>
 

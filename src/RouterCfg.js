@@ -32,6 +32,7 @@ const ManagaGenresDetails = lazy(() =>
   import("./Components/Admin/ManageGenres/ManageGenresDetails.js")
 );
 const AddSong = lazy(() => import("./Components/Admin/ManageSong/AddSong"));
+const Role = lazy(() => import("./features/role"));
 
 const RouterCfg = [
   { path: "/login", element: <Login /> },
@@ -61,7 +62,7 @@ const RouterCfg = [
 
   {
     path: "/admin",
-    element: <LayoutAdmin />,
+    element: <Role />,
     children: [
       {
         element: <RequireAuth />,

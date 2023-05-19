@@ -77,18 +77,18 @@ export default function MangeSong() {
   ];
 
   const options = {
-    filterType: "checkbox",
-    onRowClick: (rowData) => {
-      console.log("Row clicked:");
-      navigate(`/admin/manage-song-details/${rowData[0]}`);
-    },
+    // filterType: "checkbox",
+    // onRowClick: (rowData) => {
+    //   console.log("Row clicked:");
+    //   navigate(`/admin/manage-song-details/${rowData[0]}`);
+    // },
     customToolbarSelect: () => (
       <>
-        <Stack spacing={2} direction="row">
+        {/* <Stack spacing={2} direction="row">
           <IconButton>
             <DialogDeleleSong open={handleOpenEditDialog} />
           </IconButton>
-        </Stack>
+        </Stack> */}
       </>
     ),
   };

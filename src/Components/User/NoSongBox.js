@@ -23,7 +23,7 @@ export default function NoSongBox() {
         marginLeft: 50,
         marginTop: 10,
         maxWidth: 300,
-        backgroundColor: "#2c3e50",
+        backgroundColor: "#2f3640",
       }}
     >
       <CardContent>

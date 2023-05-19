@@ -52,7 +52,6 @@ export default function Profile() {
     };
   }, [avatar]);
 
-
   //preview image for user
   const handlePreviewAvatar = (e) => {
     const file = e.target.files[0];
@@ -67,7 +66,7 @@ export default function Profile() {
     }
   };
 
-  const [updateUser] = useUpdateUserMutation();
+  const [updateUser, { isLoading }] = useUpdateUserMutation();
 
   const handleUpdateUserInfo = async () => {
     const formData = new FormData();
@@ -260,6 +259,7 @@ export default function Profile() {
           <Stack direction="row" spacing={2}>
             <Button
               variant="outlined"
+              disabled={isLoading}
               sx={{
                 width: "50%",
                 height: "50%",
@@ -270,6 +270,7 @@ export default function Profile() {
             </Button>
             <Button
               type="submit"
+              disabled={isLoading}
               onClick={handleUpdateUserInfo}
               variant="contained"
               sx={{
