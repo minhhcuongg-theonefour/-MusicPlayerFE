@@ -25,7 +25,7 @@ function Banner({ genreDetail, genreDetailFetching }) {
             </p>
           </div>
 
-          <div className="right">
+          {/* <div className="right">
             <a href="#"> Play</a>
             <a href="#">
               <i>
@@ -33,7 +33,7 @@ function Banner({ genreDetail, genreDetailFetching }) {
               </i>
               Following
             </a>
-          </div>
+          </div> */}
         </div>
       </div>
 

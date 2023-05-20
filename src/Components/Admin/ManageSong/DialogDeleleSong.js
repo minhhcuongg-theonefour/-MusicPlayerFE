@@ -9,16 +9,12 @@ import { FaEllipsisH, FaHeadphones, FaCheck } from "react-icons/fa";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { Box, Card, Typography } from "@mui/joy";
 import { Stack, TextField } from "@mui/material";
-import { BsMusicNoteList, BsTrash } from "react-icons/bs";
+import { Delete, Edit } from "@mui/icons-material";
 
-export default function ConfirmDeletePlaylistDialog({
-  playlistID,
-  handleDelete,
-}) {
+export default function DialogDeleleSong() {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
-    console.log("this click 2");
     setOpen(true);
   };
 
@@ -29,7 +25,7 @@ export default function ConfirmDeletePlaylistDialog({
   return (
     <>
       <i onClick={handleClickOpen}>
-        <BsTrash />
+        <Delete />
       </i>
       <Dialog
         PaperProps={{
@@ -50,7 +46,7 @@ export default function ConfirmDeletePlaylistDialog({
         style={{ minWidth: "100%", minHeight: "100%" }}
       >
         <DialogTitle sx={{ color: "#fff" }} id="alert-dialog-title">
-          Are you sure you want to delete this playlist ?
+          Are you sure you want to delete this song ?
         </DialogTitle>
         <DialogActions>
           <Stack
@@ -72,15 +68,14 @@ export default function ConfirmDeletePlaylistDialog({
             </Button>
             <Button
               variant="contained"
-              onClick={handleDelete}
               sx={{
                 backgroundColor: "#3498db",
                 "&:hover": {
-                  backgroundColor: "#e74c3c",
+                  backgroundColor: "#27b7b7",
                 },
               }}
             >
-              Delete
+              Update
             </Button>
           </Stack>
         </DialogActions>

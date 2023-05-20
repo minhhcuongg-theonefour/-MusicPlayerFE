@@ -10,7 +10,7 @@ export default function CardMenu({ el }) {
       {/* {genres?.map((item) => ( */}
       <Card sx={{ borderRadius: 5, backgroundColor: "#454545" }}>
         <CardMedia
-          sx={{ width: "165px", height: "180px" }}
+          sx={{ width: "170px", height: "180px", borderRadius: 1 }}
           component="img"
           image={el?.image}
         />

@@ -17,15 +17,20 @@ import { calculateTime } from "../../utils/helper";
 import { useDispatch, useSelector } from "react-redux";
 import {
   currentIndex,
+  currentLength,
+  currentPlaylistId,
+  currentSongId,
   currentSource,
   setCurrentIndexSong,
   setCurrentSong,
 } from "../../features/songSlice";
-import { useGetSongByDirectionQuery } from "../../services/songAPIs";
+import { useGetSongByControlQuery } from "../../services/songAPIs";
+import { useGetSongsQuery } from "../../services/songAPIs";
 
 function MusicPlayer({ song, imgSrc, name, auto }) {
   const [isLove, setLove] = useState(false);
   const [isPlaying, setPlay] = useState(true);
+  const [isLoop, setLoop] = useState(false);
   //   duration state
   const [duration, setDuration] = useState(0);
   const [currentTime, setCurrenttime] = useState(0);
@@ -37,30 +42,44 @@ function MusicPlayer({ song, imgSrc, name, auto }) {
   const sourceSong = useSelector(currentSource);
   const indexSong = useSelector(currentIndex);
   const [direction, setDirection] = useState("");
+  const [currIndex, setCurrIndex] = useState(null);
+  const [isShuffle, setIsShuffle] = useState(false);
 
-  const { data, isFetching } = useGetSongByDirectionQuery(
+  const data_length = useSelector(currentLength);
+  const playlist_id = useSelector(currentPlaylistId);
+  const songId = useSelector(currentSongId);
+
+  const { data, isFetching } = useGetSongByControlQuery(
     {
-      index: indexSong,
+      index: currIndex,
       direction: direction,
+      playlistId: playlist_id,
+      source: sourceSong,
+      isShuffle,
+      songId: songId,
     },
     {
-      skip: !direction || !indexSong,
+      skip: !direction,
+      refetchOnMountOrArgChange: true,
     }
   );
 
   const dispatch = useDispatch();
 
   useEffect(() => {
+    console.log(direction);
     if (!isFetching && data) {
+      console.log(data);
       dispatch(
         setCurrentSong({
           imgSrc: data?.image,
           song: data?.file_url,
           name: data?.name,
           singer: data?.singer,
+          id: data?.id,
         })
       );
-      setDirection('');
+      setDirection("");
     }
   }, [isFetching, data]);
 
@@ -87,7 +106,6 @@ function MusicPlayer({ song, imgSrc, name, auto }) {
       setDuration(seconds);
       progressBar.current.max = seconds;
     });
-
     return () => {
       audioPlayer.current.removeEventListener("loadedmetadata", () => {});
     };
@@ -130,18 +148,30 @@ function MusicPlayer({ song, imgSrc, name, auto }) {
   };
 
   const handleNextSong = () => {
-    dispatch(setCurrentIndexSong({ index: indexSong + 1 }));
-    setDirection("next");
-    console.log(data)
-
-    if (data) {
+    if (indexSong < data_length - 1) {
+      setCurrIndex(indexSong);
+      dispatch(setCurrentIndexSong({ index: indexSong + 1 }));
+      setDirection("next");
     }
   };
 
   const handlePrevSong = () => {
-    dispatch(setCurrentIndexSong({ index: indexSong - 1 }));
-    setDirection("prev");
-  }
+    if (indexSong > 0) {
+      setCurrIndex(indexSong);
+      dispatch(setCurrentIndexSong({ index: indexSong - 1 }));
+      setDirection("prev");
+    }
+  };
+
+  const shuffleSong = () => {
+    setIsShuffle((prev) => !prev);
+    console.log("eee");
+  };
+
+  const handleLoop = () => {
+    console.log("this clicked");
+    
+  };
 
   const changeSongLove = () => {
     setLove(!isLove);
@@ -174,9 +204,13 @@ function MusicPlayer({ song, imgSrc, name, auto }) {
           </div>
 
           <div className="middle">
-            <div className="back">
-              <i>
-                <BsShuffle />
+            <div className="forward">
+              <i onClick={shuffleSong}>
+                {isShuffle ? (
+                  <BsShuffle style={{ color: "#27b7b7" }} />
+                ) : (
+                  <BsShuffle style={{ color: "#9a9a9a" }} />
+                )}
               </i>
               <i onClick={handlePrevSong}>
                 <FaStepBackward />
@@ -193,20 +227,26 @@ function MusicPlayer({ song, imgSrc, name, auto }) {
                 </i>
               )}
             </div>
-            <div className="forward">
+            <div className="back">
               <i onClick={handleNextSong}>
-                <FaStepForward />
+                <FaStepForward style={{ color: "#9a9a9a" }} />
               </i>
-              <i>
-                <ImLoop />
-              </i>
+            </div>
+            <div className="back" onClick={handleLoop}>
+              {isLoop ? (
+                <i>
+                  <ImLoop style={{ color: "#27b7b7" }} />
+                </i>
+              ) : (
+                <i>
+                  <ImLoop style={{ color: "#9a9a9a" }} />
+                </i>
+              )}
             </div>
           </div>
 
           <div className="right">
-            <i>
-              <FaShareAlt />
-            </i>
+            <i>{/* <FaShareAlt /> */}</i>
           </div>
         </div>
 

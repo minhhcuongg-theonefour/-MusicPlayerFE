@@ -7,10 +7,10 @@ import { useUpdatePlaylistMutation } from "../../services/playlistAPIs";
 function BannerPlaylist({ playlist, id }) {
   const [openDialog, setOpenDialog] = useState(false);
 
-
   const handleOpenRenameDialog = () => {
     console.log("this clicked");
     setOpenDialog(true);
+    console.log("dialog");
   };
 
   return (
@@ -43,9 +43,9 @@ function BannerPlaylist({ playlist, id }) {
             </p>
           </div>
 
-          <div className="right">
+          {/* <div className="right">
             <a href="#"> Play</a>
-          </div>
+          </div> */}
         </div>
       </div>
 

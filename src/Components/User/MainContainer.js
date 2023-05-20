@@ -17,7 +17,7 @@ function MainContainer() {
   //   allLi.forEach((n) => n.addEventListener("click", changePopularActive));
   // }, []);
 
-  const id = useParams();
+  const { id } = useParams();
 
   const { data: genreDetail, isFetching: genreDetailFetching } =
     useGetGenreDetailsQuery(id);
@@ -26,12 +26,19 @@ function MainContainer() {
 
   return (
     <>
-      <Banner genreDetail={genreDetail} genreDetailFetching={genreDetailFetching}/>
-      <div className="menuList"></div>
-      <AudioList
-        data={genreDetail}
-        source="song"
+      <Banner
+        genreDetail={genreDetail}
+        genreDetailFetching={genreDetailFetching}
       />
+      <div className="menuList"></div>
+      {!genreDetailFetching && (
+        <AudioList
+          data={genreDetail}
+          source="song"
+          data_length={genreDetail?.songs?.length}
+          playlist_id={null}
+        />
+      )}
     </>
   );
 }

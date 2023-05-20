@@ -16,8 +16,16 @@ const auth = music.injectEndpoints({
         body: form,
       }),
     }),
+    updateUser: builder.mutation({
+      query: (formData) => ({
+        method: "PUT",
+        url: `user`,
+        body: formData,
+      }),
+    }),
   }),
   overrideExisting: false,
 });
 
-export const { useLoginMutation, useRegisterMutation } = auth;
+export const { useLoginMutation, useRegisterMutation, useUpdateUserMutation } =
+  auth;

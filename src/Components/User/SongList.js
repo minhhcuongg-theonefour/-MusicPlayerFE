@@ -8,7 +8,7 @@ import { useDispatch } from "react-redux";
 import { calculateTime } from "../../utils/helper";
 import AddToPlaylistDropdown from "./AddToPlaylistDropdown";
 
-export default function SongList({ data, source }) {
+export default function SongList({ data, source, data_length, playlist_id }) {
   // const [songs, setSongs] = useState(data);
   const [song, setSong] = useState(data ? data[0]?.file_url : "");
   const [img, setImage] = useState(data ? data[0]?.image : "");
@@ -28,13 +28,25 @@ export default function SongList({ data, source }) {
     allSongs.forEach((n) => n.addEventListener("click", changeActive));
   }, []);
 
-  const setMainSong = (file_url, image, name, singer, index) => {
+  const setMainSong = (file_url, image, name, singer, index, id) => {
     setSong(file_url);
     setImage(image);
     setName(name);
     setSinger(singer);
     setAuto(true);
-    dispatch(setCurrentSong({ song: file_url, name, imgSrc: image, singer, index, source }));
+    dispatch(
+      setCurrentSong({
+        song: file_url,
+        name,
+        imgSrc: image,
+        singer,
+        index,
+        source,
+        data_length,
+        playlist_id,
+        id,
+      })
+    );
   };
 
   return (
@@ -49,7 +61,8 @@ export default function SongList({ data, source }) {
               song?.image,
               song?.name,
               song?.singer,
-              index
+              index,
+              song?.id
             )
           }
         >

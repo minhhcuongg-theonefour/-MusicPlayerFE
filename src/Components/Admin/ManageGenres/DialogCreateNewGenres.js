@@ -9,13 +9,12 @@ import { FaEllipsisH, FaHeadphones, FaCheck } from "react-icons/fa";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { Box, Card, Typography } from "@mui/joy";
 import { Stack, TextField } from "@mui/material";
-import { useUpdatePlaylistMutation } from "../../services/playlistAPIs";
-import { isValidImage } from "../../utils/helper";
+import { isValidImage } from "../../../utils/helper";
 import { toast } from "react-hot-toast";
-import { useGetDetailsPlaylistQuery } from "../../services/playlistAPIs";
 import { PhotoCamera } from "@mui/icons-material";
+import { useAddGenresMutation } from "../../../services/genresAPIs";
 
-export default function RenamePlaylistDialog({ id }) {
+export default function DialogCreateNewGenres() {
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -48,32 +47,41 @@ export default function RenamePlaylistDialog({ id }) {
     }
   };
 
-  const [updatePlaylist, { isLoading }] = useUpdatePlaylistMutation();
+  const [addGenres, { isLoading }] = useAddGenresMutation();
 
-  const { data, isFetching } = useGetDetailsPlaylistQuery(id);
+  const [genreName, setGenreName] = useState("");
 
-  const [playlistInfo, setPlaylistInfo] = useState(data);
-
-  useEffect(() => {
-    setPlaylistInfo(data);
-  }, [isFetching]);
-
-  const handleUpdatePlaylist = async () => {
+  const handleAddGenres = async () => {
     const formData = new FormData();
-    formData.append("name", playlistInfo?.name);
-
+    formData.append("name", genreName);
     if (avatar) {
       formData.append("image", avatar);
     }
-    await updatePlaylist({ id, formData });
-    toast.success("Your playlist updated");
+
+    console.log("Form Add Genres:");
+    for (let [key, value] of formData.entries()) {
+      console.log(key, value);
+    }
+
+    await addGenres(formData);
+    toast.success("Created new genres");
     handleClose();
   };
   return (
-    <div className="breadCrump">
-      <i onClick={handleClickOpen}>
-        <FaEllipsisH />
-      </i>
+    <>
+      <Button
+        variant="contained"
+        onClick={handleClickOpen}
+        sx={{
+          my: 1,
+          backgroundColor: "#3498db",
+          "&:hover": {
+            backgroundColor: "#27b7b7",
+          },
+        }}
+      >
+        Create new genre
+      </Button>
       <Dialog
         PaperProps={{
           style: {
@@ -93,20 +101,21 @@ export default function RenamePlaylistDialog({ id }) {
         style={{ minWidth: "100%", minHeight: "100%" }}
       >
         <DialogTitle sx={{ color: "#fff" }} id="alert-dialog-title">
-          Update your playlist
+          Create a new genre
         </DialogTitle>
         <DialogContent>
           <Grid container>
             <Grid item xs={3} sm={5}>
               <Typography fontSize={16} sx={{ marginBottom: 1, color: "#fff" }}>
-                Change your playlist photo
+                Select image for genres
               </Typography>
+
               <img
                 style={{
                   width: "200px",
                   height: "200px",
                 }}
-                src={avatar?.preview ? avatar.preview : data?.image}
+                src={avatar?.preview}
               />
               <Button
                 variant="contained"
@@ -141,12 +150,10 @@ export default function RenamePlaylistDialog({ id }) {
                   backgroundColor: "#fff",
                   borderRadius: 5,
                 }}
+                placeholder="Name of the genre"
                 fullWidth
                 name="name"
-                defaultValue={data?.name}
-                onChange={(e) =>
-                  setPlaylistInfo({ ...playlistInfo, name: e.target.value })
-                }
+                onChange={(e) => setGenreName(e.target.value)}
               ></TextField>
             </Grid>
           </Grid>
@@ -178,14 +185,14 @@ export default function RenamePlaylistDialog({ id }) {
                   backgroundColor: "#27b7b7",
                 },
               }}
-              onClick={handleUpdatePlaylist}
+              onClick={handleAddGenres}
               disabled={isLoading}
             >
-              Update
+              Create
             </Button>
           </Stack>
         </DialogActions>
       </Dialog>
-    </div>
+    </>
   );
 }
