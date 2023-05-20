@@ -60,16 +60,33 @@ export default function DialogEditGenres({ genresId }) {
 
   const handleUpdateGenres = async () => {
     const formData = new FormData();
-    formData.append("name", genresInfo?.name);
+    if (genresInfo?.name) {
+      formData.append("name", genresInfo?.name);
+    }
+    if (genresInfo.name.length == 0) {
+      toast.error("Name is required");
+    }
+    if (genresInfo.name.length > 20) {
+      toast.error("Genre name is too long");
+    }
 
     if (avatar) {
       formData.append("image", avatar);
     }
-    await updateGenres({ id: genresId, formData });
+    if (genresInfo?.name && genresInfo?.name.length < 20) {
+      try {
+        const v = await updateGenres({ id: genresId, formData });
+        if (v.error && v.error.status === 400) {
+          toast.error("Can't update genre");
+        } else {
+          toast.success("Genre updated");
+        }
+      } catch (err) {
+        console.log(err.message);
+      }
 
-    toast.success("Genre updated");
-    handleClose();
-
+      handleClose();
+    }
   };
 
   return (
@@ -145,6 +162,7 @@ export default function DialogEditGenres({ genresId }) {
                   backgroundColor: "#fff",
                   borderRadius: 5,
                 }}
+                placeholder="Name of the genre"
                 fullWidth
                 name="name"
                 defaultValue={data?.name}

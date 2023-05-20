@@ -12,6 +12,7 @@ const genres = music.injectEndpoints({
       query: (id) => ({
         url: `genres/${id}`,
       }),
+      providesTags: ["Genres"],
     }),
     addGenres: builder.mutation({
       query: (formData) => ({

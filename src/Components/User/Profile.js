@@ -19,6 +19,7 @@ import { PhotoCamera } from "@mui/icons-material";
 import { isValidImage } from "../../utils/helper";
 import { useUpdateUserMutation } from "../../services/authAPIs";
 import { toast } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 export default function Profile() {
   const settings = ["Edit profile", "Change password"];
@@ -26,6 +27,10 @@ export default function Profile() {
   const [anchorElUser, setAnchorElUser] = useState(null);
 
   const [isProfile, setIsProfile] = useState(true);
+
+  const navigate = useNavigate();
+
+  const dispatch = useDispatch();
 
   const user = useSelector(selectCurrentUser);
 
@@ -42,7 +47,9 @@ export default function Profile() {
     setIsProfile((prev) => !prev);
   };
 
-  const dispatch = useDispatch();
+  const naviHome = () => {
+    navigate("/");
+  };
 
   //clear prev avatar in cache
   const [avatar, setAvatar] = useState("");
@@ -70,19 +77,29 @@ export default function Profile() {
 
   const handleUpdateUserInfo = async () => {
     const formData = new FormData();
+
     formData.append("full_name", value?.full_name);
+    if (value?.full_name.length > 30) {
+      toast.error("Too long, please type again");
+    }
 
     if (avatar) {
       formData.append("image", avatar);
     }
-    const v = await updateUser(formData);
-    dispatch(loginSuccess({ user: v.data }));
+    try {
+      if (value?.full_name.length < 30) {
+        const v = await updateUser(formData);
+        dispatch(loginSuccess({ user: v.data }));
+        toast.success("Your profile updated");
+      }
+    } catch (err) {
+      toast.error("Something went wrong");
+    }
+
     console.log("Form Update user:");
     for (let [key, value] of formData.entries()) {
       console.log(key, value);
     }
-
-    toast.success("Your profile updated");
   };
 
   return (
@@ -191,6 +208,7 @@ export default function Profile() {
 
           <TextField
             InputLabelProps={{ shrink: true }}
+            required
             variant="filled"
             name="full_name"
             placeholder="Fullname"
@@ -210,6 +228,7 @@ export default function Profile() {
             name="email"
             placeholder="Email"
             label="Email"
+            disabled
             sx={{
               borderRadius: "8px",
               backgroundColor: "#fff",
@@ -258,6 +277,7 @@ export default function Profile() {
           />
           <Stack direction="row" spacing={2}>
             <Button
+              onClick={naviHome}
               variant="outlined"
               disabled={isLoading}
               sx={{

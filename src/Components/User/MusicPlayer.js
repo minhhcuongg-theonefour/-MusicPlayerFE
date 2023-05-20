@@ -169,8 +169,7 @@ function MusicPlayer({ song, imgSrc, name, auto }) {
   };
 
   const handleLoop = () => {
-    console.log("this clicked");
-    
+    setLoop(!isLoop);
   };
 
   const changeSongLove = () => {

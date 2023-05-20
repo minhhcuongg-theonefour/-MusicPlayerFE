@@ -69,19 +69,40 @@ export default function AddSong() {
 
   const handleSubmit = async () => {
     const formData = new FormData();
+
     if (audioRef.current?.duration) {
       formData.append("duration", Math.floor(audioRef.current.duration));
     }
 
-    formData.append("file", songFile);
+    if (songFile) {
+      formData.append("file", songFile);
+    } else {
+      toast.error("Please select audio file");
+    }
+
     formData.append("image", avatar);
-    genresArr.forEach((el) => formData.append("genres", el));
-    formData.append("name", otherInfo.name);
-    formData.append("singer", otherInfo.singer);
+    if (genresArr.length === 0) {
+      toast.error("Please select at least 1 genre");
+    } else {
+      genresArr.forEach((el) => formData.append("genres", el));
+    }
 
-    await addSong(formData);
+    if (otherInfo.name) {
+      formData.append("name", otherInfo.name);
+    } else {
+      toast.error("Please insert name of the song");
+    }
 
-    toast.success("New song created");
+    if (otherInfo.singer) {
+      formData.append("singer", otherInfo.singer);
+    } else {
+      toast.error("Please insert singer name");
+    }
+
+    const v = await addSong(formData);
+    if (v.error && v.error.status === 400) {
+      toast.error("Failed to created new song");
+    } else toast.success("New song created");
   };
 
   return (

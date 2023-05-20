@@ -53,9 +53,20 @@ export default function DialogCreateNewGenres() {
 
   const handleAddGenres = async () => {
     const formData = new FormData();
-    formData.append("name", genreName);
+    if (genreName) {
+      formData.append("name", genreName);
+    }
+    if (genreName.length === 0) {
+      toast.error("Please insert name of the genres");
+    }
+    if (genreName.length > 20) {
+      toast.error("Genres name is too long");
+    }
+
     if (avatar) {
       formData.append("image", avatar);
+    } else {
+      toast.error("Please select another image");
     }
 
     console.log("Form Add Genres:");
@@ -63,9 +74,18 @@ export default function DialogCreateNewGenres() {
       console.log(key, value);
     }
 
-    await addGenres(formData);
-    toast.success("Created new genres");
-    handleClose();
+    if (genreName && genreName.length < 20)
+      try {
+        const v = await addGenres(formData);
+        if (v.error && v.error.status === 400) {
+          toast.error("Failed to create new genres");
+        } else {
+          toast.success("New genres created");
+          handleClose();
+        }
+      } catch (err) {
+        console.log(err.message);
+      }
   };
   return (
     <>
@@ -115,7 +135,11 @@ export default function DialogCreateNewGenres() {
                   width: "200px",
                   height: "200px",
                 }}
-                src={avatar?.preview}
+                src={
+                  avatar?.preview
+                    ? avatar.preview
+                    : "https://res.cloudinary.com/doqhasjec/image/upload/v1684256077/B2CDMusic/defaultSong_j5wkxe.png"
+                }
               />
               <Button
                 variant="contained"

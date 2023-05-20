@@ -1,4 +1,5 @@
 import React from "react";
+import { toast } from "react-hot-toast";
 
 const calculateTime = (sec) => {
   const minutes = Math.floor(sec / 60);
@@ -24,4 +25,20 @@ const isValidImage = (img) => {
   return false;
 };
 
-export { calculateTime, isValidImage };
+const validateRegisterEmail = (value) => {
+  const regex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+  if (!regex.test(value)) {
+    toast.error("Your email is not valid");
+  }
+  return "";
+};
+
+const validatePassword = (value) => {
+  const passwordRegex = /^.{6,}$/;
+  if (!passwordRegex.test(value)) {
+    toast.error("Password required at least 6 in length");
+  }
+  return "";
+};
+
+export { calculateTime, isValidImage, validateRegisterEmail, validatePassword };

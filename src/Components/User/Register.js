@@ -21,6 +21,7 @@ import {
   registerFailed,
 } from "../../features/authSlice";
 import { useNavigate } from "react-router-dom";
+import { validateRegisterEmail, validatePassword } from "../../utils/helper";
 
 export default function Register() {
   const [register] = useRegisterMutation();
@@ -45,14 +46,44 @@ export default function Register() {
 
   const dispatch = useDispatch();
 
+  // console.log(emailError);
+
   const handleRegister = async (e) => {
     e.preventDefault();
+    const emailError = validateRegisterEmail(values.email);
+    const passwordError = validatePassword(values.password);
+
     dispatch(registerStart());
     try {
-      const v = await register(values);
-      dispatch(registerSuccess(v));
-      toast.success("Welcome to B2CD Music");
-      navigate("/login");
+      if (
+        values.username.length < 15 &&
+        values.password.length >= 6 &&
+        !emailError &&
+        !passwordError
+      ) {
+        const v = await register(values);
+        dispatch(registerSuccess(v));
+        console.log(v);
+        if (v.error && v.error.status === 400) {
+          toast.error("Failed to register");
+        }
+        if (v.error && v.error.status === 403) {
+          toast.error("Email or user name already exists");
+        }
+        if (values.username.length > 15) {
+          toast.error("Your user name is too long");
+        }
+        if (emailError) {
+          toast.error("Your email is not valid 111");
+        }
+        if (passwordError) {
+          toast.err("Your password must have 6 character in length");
+        }
+        if (v.data) {
+          toast.success("Welcome to B2CD Music");
+          navigate("/login");
+        }
+      }
     } catch (err) {
       toast.error("Register failed"), dispatch(registerFailed());
     }
@@ -139,6 +170,17 @@ export default function Register() {
             >
               Sign up
             </Button>
+            <Typography
+              endDecorator={
+                <Link href="/login" sx={{ color: "#1abc9c" }}>
+                  Login
+                </Link>
+              }
+              fontSize="sm"
+              sx={{ alignSelf: "center", color: "#fff" }}
+            >
+              Already have an account?
+            </Typography>
           </Sheet>
         </main>
       </CssVarsProvider>
