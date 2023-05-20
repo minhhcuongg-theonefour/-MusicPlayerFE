@@ -18,7 +18,7 @@ const playlist = music.injectEndpoints({
       }),
       providesTags: ["UserPlaylist"],
     }),
-    getDetailsPlaylist: builder.query({
+    getuserPlaylist: builder.query({
       query: (id) => ({
         url: `playlists/${id}`,
       }),
@@ -46,6 +46,13 @@ const playlist = music.injectEndpoints({
       }),
       invalidatesTags: ["UserPlaylist"],
     }),
+    deleteSongFromPlaylist: builder.mutation({
+      query: ({ playlistId, songId }) => ({
+        method: "DELETE",
+        url: `playlists/${playlistId}/songs/${songId}`,
+      }),
+    }),
+    // invalidatesTags: ["UserPlaylist"],
   }),
   overrideExisting: false,
 });
@@ -54,7 +61,8 @@ export const {
   useCreatePlaylistMutation,
   useGetPlaylistQuery,
   useRemovePlaylistMutation,
-  useGetDetailsPlaylistQuery,
+  useGetuserPlaylistQuery,
   useAddSongToPlaylistMutation,
   useUpdatePlaylistMutation,
+  useDeleteSongFromPlaylistMutation,
 } = playlist;

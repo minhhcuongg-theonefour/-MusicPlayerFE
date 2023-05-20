@@ -30,16 +30,22 @@ function RightMenu() {
           {token ? (
             <>
               <div className="profileImage">
-                <Avatar src={userImage} />
+                <Tooltip title="Avatar">
+                  <Avatar src={userImage} />
+                </Tooltip>
               </div>
               <Link to="/user/profile">
-                <AccountCircleIcon sx={{ color: "#fff", mt: "20px" }} />
+                <Tooltip title="Profile">
+                  <AccountCircleIcon sx={{ color: "#fff", mt: "20px" }} />
+                </Tooltip>
               </Link>
               <Link>
-                <LogoutIcon
-                  onClick={() => dispatch(logout())}
-                  sx={{ color: "#fff", mt: "20px" }}
-                />
+                <Tooltip title="Log out">
+                  <LogoutIcon
+                    onClick={() => dispatch(logout())}
+                    sx={{ color: "#fff", mt: "20px" }}
+                  />
+                </Tooltip>
               </Link>
             </>
           ) : (

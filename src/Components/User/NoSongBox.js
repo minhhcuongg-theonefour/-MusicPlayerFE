@@ -37,7 +37,7 @@ export default function NoSongBox() {
           <Button
             variant="contained"
             sx={{
-              marginLeft: 9,
+              marginLeft: 10,
               backgroundColor: "#27b7b7",
               "&:hover": {
                 backgroundColor: "#27b7b7",

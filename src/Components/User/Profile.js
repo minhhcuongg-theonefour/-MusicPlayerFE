@@ -179,6 +179,7 @@ export default function Profile() {
             name="username"
             placeholder="Username"
             label="Username"
+            disabled
             sx={{
               marginTop: "16px",
               borderRadius: "8px",
@@ -186,7 +187,6 @@ export default function Profile() {
               display: isProfile ? undefined : "none",
             }}
             defaultValue={user?.username}
-            onChange={(e) => setValue({ ...value, username: e.target.value })}
           />
 
           <TextField

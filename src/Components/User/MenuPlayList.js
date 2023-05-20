@@ -11,6 +11,7 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import ConfirmDeletePlaylistDialog from "./ConfirmDeletePlaylistDialog";
 import { toast } from "react-hot-toast";
+import { Tooltip } from "@mui/material";
 
 function MenuPlayList() {
   const navigate = useNavigate();
@@ -54,9 +55,11 @@ function MenuPlayList() {
           data &&
           data?.map((list) => (
             <div className="playLists" key={list?.id}>
-              <i className="list">
-                <BsMusicNoteList />
-              </i>
+              <Tooltip title=" Add playlist">
+                <i className="list">
+                  <BsMusicNoteList />
+                </i>
+              </Tooltip>
               <p onClick={() => navigate(`/user/playlist/${list?.id}`)}>
                 {list?.name}
               </p>

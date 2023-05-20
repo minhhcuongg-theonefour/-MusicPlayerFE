@@ -8,7 +8,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { FaEllipsisH, FaHeadphones, FaCheck } from "react-icons/fa";
 import Grid from "@mui/material/Unstable_Grid2/Grid2";
 import { Box, Card, Typography } from "@mui/joy";
-import { Stack, TextField } from "@mui/material";
+import { Stack, TextField, Tooltip } from "@mui/material";
 import { BsMusicNoteList, BsTrash } from "react-icons/bs";
 
 export default function ConfirmDeletePlaylistDialog({
@@ -28,9 +28,12 @@ export default function ConfirmDeletePlaylistDialog({
 
   return (
     <>
-      <i onClick={handleClickOpen}>
-        <BsTrash />
-      </i>
+      <Tooltip title="Delete playlist">
+        <i onClick={handleClickOpen}>
+          <BsTrash />
+        </i>
+      </Tooltip>
+
       <Dialog
         PaperProps={{
           style: {

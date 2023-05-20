@@ -12,7 +12,7 @@ import { Stack, TextField } from "@mui/material";
 import { useUpdatePlaylistMutation } from "../../services/playlistAPIs";
 import { isValidImage } from "../../utils/helper";
 import { toast } from "react-hot-toast";
-import { useGetDetailsPlaylistQuery } from "../../services/playlistAPIs";
+import { useGetuserPlaylistQuery } from "../../services/playlistAPIs";
 import { PhotoCamera } from "@mui/icons-material";
 
 export default function RenamePlaylistDialog({ id }) {
@@ -50,7 +50,13 @@ export default function RenamePlaylistDialog({ id }) {
 
   const [updatePlaylist, { isLoading }] = useUpdatePlaylistMutation();
 
-  const { data, isFetching } = useGetDetailsPlaylistQuery(id);
+  const { data, isFetching } = useGetuserPlaylistQuery(
+    id,
+    "userPlaylist",
+    {
+      refetchOnMountOrArgChange: true,
+    }
+  );
 
   const [playlistInfo, setPlaylistInfo] = useState(data);
 

@@ -12,7 +12,9 @@ import {
 
 function AddToPlaylist({ song }) {
   const { data: playlistUser, isFetching: playlistUserFetching } =
-    useGetPlaylistQuery();
+    useGetPlaylistQuery("userPlaylist", {
+      refetchOnMountOrArgChange: true,
+    });
 
   const [addSongToPlaylist] = useAddSongToPlaylistMutation();
 

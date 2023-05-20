@@ -9,8 +9,9 @@ export default function Library() {
   const navigate = useNavigate();
 
   const { data: userPlaylist, isFetching: userPlaylistFetching } =
-    useGetPlaylistQuery();
-
+    useGetPlaylistQuery("userPlaylist", {
+      refetchOnMountOrArgChange: true,
+    });
   console.log(userPlaylist);
 
   const totalPlaylist = userPlaylist?.length;
