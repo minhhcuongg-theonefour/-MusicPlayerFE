@@ -50,7 +50,9 @@ function RightMenu() {
             </>
           ) : (
             <div onClick={() => window.location.replace("/login")}>
-              <LoginIcon sx={{ color: "#fff", mt: "20px" }} />
+              <Tooltip title="Log in">
+                <LoginIcon sx={{ color: "#fff", mt: "20px" }} />
+              </Tooltip>
             </div>
           )}
         </div>
